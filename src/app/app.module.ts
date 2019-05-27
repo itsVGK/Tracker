@@ -8,7 +8,7 @@ import { IssueModule } from './issue/issue.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
