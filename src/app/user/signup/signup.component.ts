@@ -13,15 +13,24 @@ import { ToastrService } from 'ngx-toastr';
 
 export class SignupComponent implements OnInit {
 
+  constructor(private router: Router, private toastr: ToastrService) { }
+
   public firstName: String;
   public lastName: String;
   public email: EmailValidator;
   public password: String;
 
-  constructor(private router: Router, private toastr: ToastrService) { }
-
   ngOnInit() {
-    // this.toastr.success('here')
+  }
+
+  createUser = () => {
+    let user: UserDetails = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password
+    }
+
   }
 
 }

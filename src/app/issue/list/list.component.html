@@ -1,3 +1,33 @@
-<p>
-  list works!
-</p>
+<div class="row">
+  <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
+
+  <form class="form-inline">
+    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="container-fluid margintop">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#id</th>
+        <th>Status</th>
+        <th>Title</th>
+        <th>Reporter</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <div *ngIf=false>
+      <tbody>
+        <tr>
+          <th>{{id}}</th>
+          <th>{{status}}</th>
+          <th>{{title}}</th>
+          <th>{{reporter}}</th>
+          <th>{{date}}</th>
+        </tr>
+      </tbody>
+    </div>
+  </table>
+</div>
