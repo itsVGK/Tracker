@@ -9,6 +9,9 @@ import { Router, RouterModule } from '@angular/router'
 })
 export class LoginComponent implements OnInit {
 
+  public userName:String;
+  public password:String;
+  
   constructor(private router: Router) { }
 
   ngOnInit() {
