@@ -5,6 +5,8 @@ import { UserDetails } from './user-details';
 import { EmailValidator } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
+import { AppService } from './../../app.service';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -13,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class SignupComponent implements OnInit {
 
-  constructor(private router: Router, private toastr: ToastrService) { }
+  constructor(private router: Router, private toastr: ToastrService, private appService: AppService) { }
 
   public firstName: String;
   public lastName: String;
@@ -24,6 +26,7 @@ export class SignupComponent implements OnInit {
   }
 
   createUser = () => {
+
     let user: UserDetails = {
       firstName: this.firstName,
       lastName: this.lastName,
@@ -31,6 +34,15 @@ export class SignupComponent implements OnInit {
       password: this.password
     }
 
+    this.appService.signupService(user).subscribe(
+      (result) => {
+        if (result.status === 200) {
+          this.router.navigate(['login']);
+        } else {
+          this.router.navigate(['signup']);
+        }
+      }
+    )
   }
 
 }

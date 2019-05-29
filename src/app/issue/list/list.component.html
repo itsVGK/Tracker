@@ -8,26 +8,31 @@
 </div>
 
 <div class="container-fluid margintop">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#id</th>
-        <th>Status</th>
-        <th>Title</th>
-        <th>Reporter</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <div *ngIf=false>
-      <tbody>
-        <tr>
-          <th>{{id}}</th>
-          <th>{{status}}</th>
-          <th>{{title}}</th>
-          <th>{{reporter}}</th>
-          <th>{{date}}</th>
-        </tr>
-      </tbody>
+  <div *ngIf="issueListbyUser.length>0">
+    <div *ngFor="let issue of issueListbyUser; let i=first; let l=last" (click)="issueSelected(issue.issueId)">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#id</th>
+            <th>Status</th>
+            <th>Title</th>
+            <th>Assignee</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody  class="activeIssue">
+          <tr>
+            <th scope="row">{{issue.userId}}</th>
+            <td>{{issue.status}}</td>
+            <td>{{issue.title}}</td>
+            <td>{{issue.assignee}}</td>
+            <td>{{issue.date}}</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
-  </table>
+  </div>
 </div>

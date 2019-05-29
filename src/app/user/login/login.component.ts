@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   public userName: String;
   public password: String;
+  public loggedIn: boolean = false;
 
   constructor(private router: Router, private appService: AppService) { }
 
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   login = () => {
+
     let loggedUser = {
       userName: this.userName,
       password: this.password
@@ -27,12 +29,18 @@ export class LoginComponent implements OnInit {
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
+
+          this.loggedIn = true;
+
           this.router.navigate(['list']);
         } else {
           this.router.navigate(['login']);
         }
       }
     )
+  }   //end log in
 
+  public isLoggedIn = () => {
+    return this.loggedIn;
   }
 }
