@@ -24,6 +24,7 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
+    console.log(this.issueId)
     this.getIssuebyId(this.issueId);
   }
 
@@ -47,7 +48,7 @@ export class ViewComponent implements OnInit {
       description: this.description,
       comments: this.comments,
       assignee: this.assignee,
-      issueId:this.issueId
+      issueId: this.issueId
     }
 
     this.appService.updateIssueByUser(editedValue).subscribe(

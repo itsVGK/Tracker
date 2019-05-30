@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { ViewComponent } from './view/view.component';
 import { FormsModule } from '@angular/forms';
+import { RouteGuardService } from '../issue/route-guard.service';
 
 @NgModule({
   declarations: [ViewComponent],
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      { path: 'view', component: ViewComponent }
+      { path: 'view/:issueId', component: ViewComponent, canActivate:[RouteGuardService] }
     ])
   ]
 })

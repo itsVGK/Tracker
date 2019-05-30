@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, RouterModule } from '@angular/router'
 import { AppService } from './../../app.service';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-login',
@@ -25,13 +26,14 @@ export class LoginComponent implements OnInit {
       userName: this.userName,
       password: this.password
     }
-
+    Cookie.set('authToken', 'admin');
+    console.log('authtoken has been set')
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
 
           this.loggedIn = true;
-
+          Cookie.set('authToken', 'admin');
           this.router.navigate(['list']);
         } else {
           this.router.navigate(['login']);

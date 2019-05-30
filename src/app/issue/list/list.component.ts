@@ -47,7 +47,7 @@ export class ListComponent implements OnInit {
 
   issueSelected=(issueId)=>{
     console.log(issueId);
-    this.router.navigate(['view'], issueId);
+    this.router.navigate(['/view', issueId]);
   }
 
 
