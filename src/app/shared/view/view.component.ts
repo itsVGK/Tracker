@@ -15,16 +15,20 @@ export class ViewComponent implements OnInit {
   public issueId: String;
   public title: String = "sample";
   public status: String;
-  public reportee: String;
+  public reportee: String = "sample reporter";
   public description: String;
   public comments: any = ['sample1', 'sample2', 'sample3'];
   public assignee: String;
+  public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
+  public assigneeList: any = ['get from api', 'api 2'];
+  public enableEdit: boolean = false;
 
   constructor(private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    console.log(this.issueId)
+    this.assignee = 'api 2';
+    this.status = this.statusList[3];
     this.getIssuebyId(this.issueId);
   }
 
@@ -37,6 +41,10 @@ export class ViewComponent implements OnInit {
         }
       }
     )
+  }
+
+  enableEditForm = () => {
+    this.enableEdit = true;
   }
 
   editform = () => {

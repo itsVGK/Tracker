@@ -6,11 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserModule } from './user/user.module';
 import { IssueModule } from './issue/issue.module';
-import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NgbModule,
+    NotifierModule,
     ToastrModule.forRoot()
   ],
   providers: [],

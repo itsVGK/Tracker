@@ -11,8 +11,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class LoginComponent implements OnInit {
 
-  public userName: String;
-  public password: String;
+  public userName: string;
+  public password: string;
   public loggedIn: boolean = false;
 
   constructor(private router: Router, private appService: AppService) { }
@@ -26,13 +26,16 @@ export class LoginComponent implements OnInit {
       userName: this.userName,
       password: this.password
     }
-    Cookie.set('authToken', 'admin');
+
+    Cookie.set('userName', 'userName')  //TBD
+    Cookie.set('authToken', 'admin');  //TBD
     console.log('authtoken has been set')
+
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
-
           this.loggedIn = true;
+          Cookie.set('userName', this.userName);
           Cookie.set('authToken', 'admin');
           this.router.navigate(['list']);
         } else {

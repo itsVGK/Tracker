@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
 })
 export class CreateComponent implements OnInit {
 
-  public assigneeList: any = [];
+  public assigneeList: any = ['sam1', 'sam2'];
+  public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
 
-  public title: String;
   public status: String;
+  public title: String;
   public assignee: String;
   public description: String;
   public comments: any = [];
@@ -47,7 +48,7 @@ export class CreateComponent implements OnInit {
       comments: this.comments,
       reportee: this.reportee
     }
-
+    console.log(issue.status + ' ' + issue.assignee)
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {

@@ -1,6 +1,5 @@
 <div class="row margintop">
-  <div class="col-md-1"></div>
-  <div class="col-md-9 offset-md-2">
+  <div class="col-md-6 offset-md-1">
     <div>Create Request</div><br>
 
     <form #createForm="ngForm" (ngSubmit)="createUser()">
@@ -15,7 +14,9 @@
       <div class="form-group row">
         <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-10">
-          <input [(ngModel)]="status" type="text" name="status" class="form-control" id="status" required>
+          <select [(ngModel)]="status" name="status" class="form-control" id="status" required>
+            <option *ngFor="let stat of statusList" [value]="stat">{{stat}}</option>
+          </select>
         </div>
       </div>
 

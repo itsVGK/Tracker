@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AppService } from './../../app.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list',
@@ -17,20 +17,30 @@ export class ListComponent implements OnInit {
   public reportee: String;
   public description: String;
   public assignee: String;
+  public date: any;
 
-  public issueListbyUser: any = [{
-    'userId': 'sample',
-    'status': 'sample status',
-    'title': 'sam tit',
-    'assignee': 'sam assig',
-    'date': Date.now(),
-    'issueId':'sam Issue id'
-  }];
+  public issueListbyUser: any = [];
 
-  constructor(private router: Router, private appService: AppService) { }
+  constructor(private router: Router, private appService: AppService, private toastr: ToastrService) {
+  }
 
   ngOnInit() {
     // this.getAllIssuesByUser();
+    this.generateUser();
+    // this.popUpNotification();
+  }
+
+  public generateUser(): any {
+
+    for (let i = 0; i < 5; i++) {
+      let tem = { 'issueId': i, 'status': 'stat ' + i };
+      this.issueListbyUser.push(tem);
+    }
+  }
+
+  public popUpNotification = () => {
+    console.log('in pop up');
+    this.toastr.success('Welcome Gopala');
   }
 
   public getAllIssuesByUser(): any {
@@ -45,8 +55,9 @@ export class ListComponent implements OnInit {
     )
   }
 
-  issueSelected=(issueId)=>{
+  issueSelected = (issueId) => {
     console.log(issueId);
+    this.toastr.success('Welcome Gopala', 'HI');
     this.router.navigate(['/view', issueId]);
   }
 

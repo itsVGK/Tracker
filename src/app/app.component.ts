@@ -1,20 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-
-// import { LoginComponent } from './user/login/login.component';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html', 
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  title = 'tracker';
-  public isLoggedIn: boolean=true;
+export class AppComponent implements OnInit {
 
-  // constructor(private loginComponent: LoginComponent) {
-  // }
+  title = 'tracker';
+
+  public isLoggedIn: String;
+  public userName: String;
+  public authToken: String = 'admin';
+  public count: number = 3;
+  public isCollapsed: boolean = true;
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
-    // this.isLoggedIn=LoginComponent.isLoggedIn();
+    this.userName = Cookie.get('userName');
+    this.isLoggedIn = Cookie.get('authToken');
+    // console.log(this.isLoggedIn)
+  }
+
+  logout = () => {
+    Cookie.delete('authToken');
+    Cookie.delete('userName');
+    this.router.navigate(['login']);
   }
 }
