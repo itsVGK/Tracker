@@ -4,5 +4,6 @@ export interface UserDetails {
     firstName: String,
     lastName: String,
     email: EmailValidator,
-    password: String
+    password: String,
+    createdOn: any
 }

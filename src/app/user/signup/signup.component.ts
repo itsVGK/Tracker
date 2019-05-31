@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit {
   public lastName: String;
   public email: EmailValidator;
   public password: String;
+  public createdOn: any;
 
   ngOnInit() {
   }
@@ -31,7 +32,8 @@ export class SignupComponent implements OnInit {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      password: this.password
+      password: this.password,
+      createdOn: Date.now()
     }
 
     this.appService.signupService(user).subscribe(
