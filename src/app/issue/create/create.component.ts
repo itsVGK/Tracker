@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AppService } from './../../app.service';
 import { Router } from '@angular/router';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-create',
@@ -17,12 +18,12 @@ export class CreateComponent implements OnInit {
   public title: String;
   public assignee: String;
   public description: String;
-  public comments: any = [];
-  public reportee: String;
+  public reporteeId: String;
 
   constructor(private appService: AppService, private router: Router) { }
 
   ngOnInit() {
+    this.reporteeId=Cookie.get('userId');
     this.getAssigneeList();
   }
 
@@ -31,7 +32,7 @@ export class CreateComponent implements OnInit {
       (assignee) => {
         this.assigneeList = [];
         for (let x in assignee) {
-          let tem = { 'userId': x, 'userName': assignee[x] };
+          let tem = { 'firstName': x, 'lastName': assignee[x] };
           this.assigneeList.push(tem);
         }
       }
@@ -45,10 +46,9 @@ export class CreateComponent implements OnInit {
       status: this.status,
       assignee: this.assignee,
       description: this.description,
-      comments: this.comments,
-      reportee: this.reportee
+      reporteeId: this.reporteeId
     }
-    console.log(issue.status + ' ' + issue.assignee)
+
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from './../../app.service';
 import { ToastrService } from 'ngx-toastr';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-list',
@@ -25,6 +26,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userId = Cookie.get('userId')
     // this.getAllIssuesByUser();
     this.generateUser();
     // this.popUpNotification();
@@ -33,7 +35,7 @@ export class ListComponent implements OnInit {
   public generateUser(): any {
 
     for (let i = 0; i < 5; i++) {
-      let tem = { 'issueId': i, 'status': 'stat ' + i };
+      let tem = { 'issueId': i, 'status': 'stat ' + i, 'title': '', 'reportee': '', 'date': '' };
       this.issueListbyUser.push(tem);
     }
   }
@@ -48,7 +50,7 @@ export class ListComponent implements OnInit {
       (issues) => {
         this.issueListbyUser = [];
         for (let x in issues) {
-          let tem = { 'userId': x, 'userName': issues[x] };
+          let tem = { 'issueId': '', 'status': 'stat ', 'title': '', 'reportee': '', 'date': '' };
           this.issueListbyUser.push(tem);
         }
       }

@@ -11,7 +11,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { NotifierModule } from 'angular-notifier';
     BrowserModule,
     BrowserAnimationsModule,
     NgbModule,
-    NotifierModule,
     ToastrModule.forRoot()
   ],
   providers: [],

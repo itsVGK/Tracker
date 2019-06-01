@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AppService } from './../../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-view',
@@ -71,12 +72,13 @@ export class ViewComponent implements OnInit {
   }  //end edit form
 
   addWatch = () => {
-    console.log('add user to the watch list');
-    let watcher = {
-      'name': 'sample'
+    
+    let watch={
+      'issueId':this.issueId,
+      'userId':Cookie.get('userId')
     }
 
-    this.appService.updateWatchList(watcher).subscribe(
+    this.appService.updateWatchList(watch).subscribe(
       (result) => {
         if (result.status === 200) {
           console.log('added to the list')

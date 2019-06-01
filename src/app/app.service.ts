@@ -18,7 +18,7 @@ export class AppService {
   public loginService(user): Observable<any> {
 
     const params = new HttpParams()
-      .set('userName', user.userName)
+      .set('email', user.email)
       .set('password', user.password)
 
     return this.http.post(`this.url/login`, params);
@@ -35,8 +35,8 @@ export class AppService {
   }
 
   //for create view to get
-  public getAssigneeList():Observable<any>{
-    return this.http.get(`this.url/getAll`);
+  public getAssigneeList(): Observable<any> {
+    return this.http.get(`this.url/users`);
   }
 
   //for create view to post
@@ -44,21 +44,20 @@ export class AppService {
     const params = new HttpParams()
       .set('title', issue.title)
       .set('status', issue.status)
-      .set('reporter', issue.reporter)
+      .set('assignee', issue.assignee)
       .set('description', issue.description)
-      .set('comments', issue.comments)
+      .set('reporteeId', issue.reporteeId)
     return this.http.post(`this.url/create`, params);
   }
 
   //for List View to get
   public getAllIssuesByUser(userId): Observable<any> {
-
-    return this.http.get(`this.url/list/:${userId}`);
+    return this.http.get(`this.url/getBy/user/${userId}`);
   }
 
   //for View view to get
-  public getIssuebyId(issueId):Observable<any>{
-    return this.http.get(`this.url/:issueId/issue`);
+  public getIssuebyId(issueId): Observable<any> {
+    return this.http.get(`this.url/getBy/issue/${issueId}`);
   }
 
   //for View view- to update
@@ -66,17 +65,20 @@ export class AppService {
     const params = new HttpParams()
       .set('title', issue.title)
       .set('status', issue.status)
-      .set('reporter', issue.reporter)
+      .set('assignee', issue.assignee)
+      // .set('reporteeId', issue.reporteeId)
       .set('description', issue.description)
       .set('comments', issue.comments)
     return this.http.post(`this.url/update/:${issue.issueId}`, params);
   }
 
   //for View view to update watch list
-  public updateWatchList(list):Observable<any>{
-    let params=new HttpParams()
-    .set('watcher', list.watcher);
-    return this.http.post(`this.url/upWatch`, params);
+  public updateWatchList(watch): Observable<any> {
+    let params = new HttpParams()
+      .set('issueId', watch.issueId)
+      .set('userId', watch.userId);
+
+    return this.http.post(`this.url/addWatch`, params);
   }
 
 }
