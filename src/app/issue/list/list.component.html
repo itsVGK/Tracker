@@ -8,6 +8,11 @@
 </div>
 
 <div class="container-fluid margintop">
+
+  <div *ngIf="issueListbyUser.length==0">
+    No Issues Available
+  </div>
+
   <div *ngIf="issueListbyUser.length>0">
 
       <table class="table">

@@ -1,5 +1,5 @@
 <div class="row margintop">
-  <div class="col-md-6 offset-md-1">
+  <div class="col-md-8 offset-md-1">
     <div>Create Request</div><br>
 
     <form #createForm="ngForm" (ngSubmit)="createUser()">
@@ -24,7 +24,7 @@
         <label for="assignee" class="col-sm-2 col-form-label">Assignee</label>
         <div class="col-sm-10">
           <select [(ngModel)]="assignee" name="assignee" class="form-control" id="assignee" required>
-            <option *ngFor="let assignee of assigneeList" [value]="assignee">{{assignee}}</option>
+            <option *ngFor="let assignee of assigneeList" value="bSqHdmeD6">{{assignee.firstName}} {{assignee.lastName}}</option>
           </select>
         </div>
       </div>

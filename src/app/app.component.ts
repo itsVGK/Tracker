@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.userName = Cookie.get('userName');
     this.isLoggedIn = Cookie.get('authToken');
-    // console.log(this.isLoggedIn)
   }
 
   logout = () => {

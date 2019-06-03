@@ -16,23 +16,25 @@ export class CreateComponent implements OnInit {
 
   public status: String;
   public title: String;
-  public assignee: String;
+  public assignee: String = "bSqHdmeD6";
   public description: String;
   public reporteeId: String;
 
   constructor(private appService: AppService, private router: Router) { }
 
   ngOnInit() {
-    this.reporteeId=Cookie.get('userId');
+    this.reporteeId = Cookie.get('userId');
     this.getAssigneeList();
   }
 
   getAssigneeList = () => {
     this.appService.getAssigneeList().subscribe(
-      (assignee) => {
+      (result) => {
+
         this.assigneeList = [];
-        for (let x in assignee) {
-          let tem = { 'firstName': x, 'lastName': assignee[x] };
+        for (let x in result.data) {
+          let tem = { 'firstName': result.data[x].firstName, 'lastName': result.data[x].lastName, 'assigneeId': result.data[x].userId };
+          console.log(tem)
           this.assigneeList.push(tem);
         }
       }
@@ -48,7 +50,7 @@ export class CreateComponent implements OnInit {
       description: this.description,
       reporteeId: this.reporteeId
     }
-
+    console.log(issue)
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {

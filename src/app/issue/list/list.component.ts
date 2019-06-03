@@ -27,8 +27,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.userId = Cookie.get('userId')
-    // this.getAllIssuesByUser();
-    this.generateUser();
+    this.getAllIssuesByAssignee();
     // this.popUpNotification();
   }
 
@@ -45,13 +44,28 @@ export class ListComponent implements OnInit {
     this.toastr.success('Welcome Gopala');
   }
 
-  public getAllIssuesByUser(): any {
-    this.appService.getAllIssuesByUser(this.userId).subscribe(
+  public getAllIssuesByAssignee(): any {
+    this.appService.getAllIssuesByAssignee(this.userId).subscribe(
       (issues) => {
-        this.issueListbyUser = [];
-        for (let x in issues) {
-          let tem = { 'issueId': '', 'status': 'stat ', 'title': '', 'reportee': '', 'date': '' };
-          this.issueListbyUser.push(tem);
+        if (issues.status == 400) {
+          this.issueListbyUser = [];
+        }
+        else {
+          let dat = issues.data
+          for (let x in dat) {
+            let reporteeName;
+            this.appService.getUserbyId(dat[x].reporteeId).subscribe(
+              (data) => {
+                if (data.status == 400) {
+                  return;
+                } else {
+                  console.log(data.data[0])
+                  reporteeName = data.data[0].email;
+                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn };
+                  this.issueListbyUser.push(tem);
+                }
+              })
+          }
         }
       }
     )
