@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from './../../app.service';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create',
@@ -16,11 +17,11 @@ export class CreateComponent implements OnInit {
 
   public status: String;
   public title: String;
-  public assignee: String = "bSqHdmeD6";
+  public assignee: String = "nt6IzALE2";
   public description: String;
   public reporteeId: String;
 
-  constructor(private appService: AppService, private router: Router) { }
+  constructor(private appService: AppService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.reporteeId = Cookie.get('userId');
@@ -30,12 +31,15 @@ export class CreateComponent implements OnInit {
   getAssigneeList = () => {
     this.appService.getAssigneeList().subscribe(
       (result) => {
-
-        this.assigneeList = [];
-        for (let x in result.data) {
-          let tem = { 'firstName': result.data[x].firstName, 'lastName': result.data[x].lastName, 'assigneeId': result.data[x].userId };
-          console.log(tem)
-          this.assigneeList.push(tem);
+        if (result.status === 200) {
+          this.assigneeList = [];
+          for (let x in result.data) {
+            let tem = { 'firstName': result.data[x].firstName, 'lastName': result.data[x].lastName, 'assigneeId': result.data[x].userId };
+            console.log(tem)
+            this.assigneeList.push(tem);
+          }
+        }else{
+          this.assigneeList=['No Assignees Available'];
         }
       }
     )
@@ -54,8 +58,10 @@ export class CreateComponent implements OnInit {
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {
+          this.toastr.success('Issue Created Successfully', 'Success')
           this.router.navigate(['list']);
         } else {
+          this.toastr.error('Unable to create an Issue', 'Sorry')
           this.router.navigate(['create']);
         }
       }

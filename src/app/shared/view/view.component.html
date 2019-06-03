@@ -24,8 +24,8 @@
       <div class="form-group row">
         <label for="reportee" class="col-sm-2 col-form-label">Reporter</label>
         <div class="col-sm-10">
-          <input [disabled]="!enableEdit" type="text" [(ngModel)]="reportee" value="reportee" name="reportee"
-            #rep="ngModel" class="form-control" id="reportee">
+          <input type="text" [(ngModel)]="reportee" value="reportee" name="reportee"
+            #rep="ngModel" class="form-control" id="reportee" readonly>
         </div>
       </div>
 

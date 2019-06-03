@@ -48,6 +48,7 @@ export class ListComponent implements OnInit {
     this.appService.getAllIssuesByAssignee(this.userId).subscribe(
       (issues) => {
         if (issues.status == 400) {
+          this.toastr.warning('No Issues were Assigned', 'Enjoy');
           this.issueListbyUser = [];
         }
         else {
@@ -59,8 +60,7 @@ export class ListComponent implements OnInit {
                 if (data.status == 400) {
                   return;
                 } else {
-                  console.log(data.data[0])
-                  reporteeName = data.data[0].email;
+                  reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
                   let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn };
                   this.issueListbyUser.push(tem);
                 }
@@ -73,7 +73,6 @@ export class ListComponent implements OnInit {
 
   issueSelected = (issueId) => {
     console.log(issueId);
-    this.toastr.success('Welcome Gopala', 'HI');
     this.router.navigate(['/view', issueId]);
   }
 

@@ -13,7 +13,7 @@ export class AppService {
 
   constructor(private http: HttpClient) { }
 
-  public url = `http://localhost:3000/api/v1/issue`;
+  public url = `http://api.shakeit.live/api/v1/issue`;
 
   public loginService(user): Observable<any> {
 
@@ -85,7 +85,7 @@ export class AppService {
       .set('issueId', watch.issueId)
       .set('userId', watch.userId);
 
-    return this.http.post(`this.url/addWatch`, params);
+    return this.http.post(`${this.url}/addWatch`, params);
   }
 
 }

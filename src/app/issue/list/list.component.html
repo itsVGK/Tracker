@@ -15,27 +15,27 @@
 
   <div *ngIf="issueListbyUser.length>0">
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#issueId</th>
-            <th>Status</th>
-            <th>Title</th>
-            <th>Reportee</th>
-            <th>Date</th>
-          </tr>
-        </thead>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#issueId</th>
+          <th>Status</th>
+          <th>Title</th>
+          <th>Reportee</th>
+          <th>Date</th>
+        </tr>
+      </thead>
 
-        <tbody class="activeIssue" *ngFor="let issue of issueListbyUser" (click)="issueSelected(issue.issueId)">
-          <tr>
-            <th scope="row">{{issue.issueId}}</th>
-            <td>{{issue.status}}</td>
-            <td>{{issue.title}}</td>
-            <td>{{issue.reportee}}</td>
-            <td>{{issue.date}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <tbody class="activeIssue" *ngFor="let issue of issueListbyUser" (click)="issueSelected(issue.issueId)">
+        <tr>
+          <th scope="row">{{issue.issueId}}</th>
+          <td>{{issue.status}}</td>
+          <td>{{issue.title}}</td>
+          <td>{{issue.reportee}}</td>
+          <td>{{issue.date|date:'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
 
   </div>
 </div>

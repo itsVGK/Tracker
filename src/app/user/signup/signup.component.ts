@@ -39,8 +39,10 @@ export class SignupComponent implements OnInit {
     this.appService.signupService(user).subscribe(
       (result) => {
         if (result.status === 200) {
+          this.toastr.success("User Created Successfully", "Great");
           this.router.navigate(['login']);
         } else {
+          this.toastr.error('Unable to create the user', 'Sorry!!');
           this.router.navigate(['signup']);
         }
       }
