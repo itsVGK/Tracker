@@ -35,7 +35,6 @@ export class CreateComponent implements OnInit {
           this.assigneeList = [];
           for (let x in result.data) {
             let tem = { 'firstName': result.data[x].firstName, 'lastName': result.data[x].lastName, 'assigneeId': result.data[x].userId };
-            console.log(tem)
             this.assigneeList.push(tem);
           }
         }else{

@@ -1,6 +1,7 @@
 export interface Dashboard {
+    issueId:String
     status: String;
     title: String;
-    reporter: String;
-    date: Date
+    reportee: String;
+    date: any;
 }
