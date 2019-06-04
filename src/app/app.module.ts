@@ -11,7 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { MatInputModule, MatFormFieldModule } from '@angular/material';
+// import { MatInputModule, MatFormFieldModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -28,8 +28,8 @@ import { MatInputModule, MatFormFieldModule } from '@angular/material';
     BrowserModule,
     BrowserAnimationsModule,
     AngularEditorModule,
-    MatInputModule,
-    MatFormFieldModule,
+    // MatInputModule,
+    // MatFormFieldModule,
     ToastrModule.forRoot()
   ],
   providers: [],

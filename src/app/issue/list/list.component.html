@@ -7,15 +7,47 @@
   </form>
 </div>
 
-<div class="container-fluid margintop">
+<!-- new -->
 
-  <div *ngIf="issueListbyUser.length==0">
+<div class="row">
+  <div class="col-md-4">
+    <input *ngIf="config.filtering" placeholder="Filter all columns"
+           [ngTableFiltering]="config.filtering"
+           class="form-control"
+           (tableChanged)="onChangeTable(config)"/>
+  </div>
+</div>
+<br>
+<ng-table [config]="config"
+          (tableChanged)="onChangeTable(config)"
+          (cellClicked)="onCellClick($event)"
+          [rows]="rows" [columns]="columns">
+</ng-table>
+<pagination *ngIf="config.paging"
+            class="pagination-sm"
+            [(ngModel)]="page"
+            [totalItems]="length"
+            [itemsPerPage]="itemsPerPage"
+            [maxSize]="maxSize"
+            [boundaryLinks]="true"
+            [rotate]="false"
+            (pageChanged)="onChangeTable(config, $event)"
+            (numPages)="numPages = $event">
+</pagination>
+<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+
+<!-- end new -->
+
+
+<!-- <div class="container-fluid margintop"> -->
+
+  <!-- <div *ngIf="issueListbyUser.length==0">
     No Issues Available
   </div>
 
   <div *ngIf="issueListbyUser.length>0">
 
-    <!-- <table class="table">
+     <table class="table">
       <thead>
         <tr>
           <th>#issueId</th>
@@ -32,12 +64,12 @@
           <td>{{issue.status}}</td>
           <td>{{issue.title}}</td>
           <td>{{issue.reportee}}</td>
-          <td>{{issue.date|date:'medium'}}</td>
+          <td>{{issue.date|date:'short'}}</td>
         </tr>
       </tbody>
     </table> -->
 
-    <mat-form-field>
+    <!-- <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
@@ -60,8 +92,8 @@
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </div>
+    </div> -->
 
-
+<!-- 
   </div>
-</div>
+</div> -->

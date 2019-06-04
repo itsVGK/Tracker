@@ -8,33 +8,21 @@ import { FormsModule } from '@angular/forms';
 import { ViewComponent } from '../shared/view/view.component';
 import { RouteGuardService } from './route-guard.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { MatFormFieldModule, MatSort, MatTableModule, MatInputModule, MatPaginatorModule } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
+import { PaginationModule } from 'ng2-bootstrap/pagination';
+import { NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective } from 'ng2-table/ng2-table';
 
 @NgModule({
-  declarations: [ListComponent, CreateComponent],
+  declarations: [ListComponent, CreateComponent, NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,],
   imports: [
     CommonModule,
     FormsModule,
     AngularEditorModule,
-    CdkTableModule,
-    MatTableModule,
-    MatInputModule,
-    MatPaginatorModule,
-    // MatSort,
-    // MatTableDataSource,
-    MatFormFieldModule,
+    PaginationModule.forRoot(),
     RouterModule.forChild([
       { path: 'list', component: ListComponent, canActivate: [RouteGuardService] },
       { path: 'create', component: CreateComponent, canActivate: [RouteGuardService] },
       { path: 'view/:issueId', component: ViewComponent, canActivate: [RouteGuardService] }
     ])
-  ],
-  exports: [
-    // MatPaginator,
-    // MatSort,
-    // MatTableDataSource,
-    MatFormFieldModule,
   ]
 })
 export class IssueModule { }
