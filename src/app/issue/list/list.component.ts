@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 import { Dashboard } from './dashboard';
-import { asLiteral } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-list',
@@ -53,20 +52,26 @@ export class ListComponent implements OnInit {
     filtering: { filterString: '' },
     className: ['table-striped', 'table-bordered']
   };
-
-  private data: Array<any> = [];
+  private data: Array<any> = this.issueListbyUser;
+  //   private data: Array<any> = [{
+  //     'issueId': 'issue', 'status': 'status', 'title': 'dat[x].titl', 'reportee': 'reporteeName', 'date': 'dat[x].createdOn'
+  //   },
+  // {
+  //     'issueId': 'issue1', 'status': 'status', 'title': 'dat[x].titl', 'reportee': 'reporteeName', 'date': 'dat[x].createdOn'
+  //   }];
 
   public constructor(private router: Router, private appService: AppService, private toastr: ToastrService) {
-    // this.length = this.data.length;
-    this.userId = Cookie.get('userId')
-    this.getAllIssuesByAssignee();
+    this.length = this.data.length;
   }
 
   public ngOnInit(): void {
-
-    // this.userId = Cookie.get('userId')
-    // this.getAllIssuesByAssignee();
-    // this.onChangeTable(this.config);
+    this.userId = Cookie.get('userId')
+    this.getAllIssuesByAssignee();
+    console.log('timer start')
+    setTimeout(() => {
+      this.onChangeTable(this.config);
+    }, 3000);
+    console.log('timer stop')
   }
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -142,6 +147,8 @@ export class ListComponent implements OnInit {
   }
 
   public onChangeTable(config: any, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }): any {
+    console.log('in change')
+    this.data = this.issueListbyUser;
     if (config.filtering) {
       Object.assign(this.config.filtering, config.filtering);
     }
@@ -181,12 +188,10 @@ export class ListComponent implements OnInit {
                 }
               })
           }
+          console.log('gng to call')
+          this.onChangeTable(this.config, true);
+          console.log('called')
         }
-        this.data = this.issueListbyUser;
-        this.onChangeTable(this.config);
-        this.length = this.data.length;
-        console.log(this.data);
-        console.log(this.data.length);
       })
   }
 
