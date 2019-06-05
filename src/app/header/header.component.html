@@ -5,7 +5,7 @@
       <a class="navbar-brand" href="/">Issue Tracker</a>
     </div>
 
-    <div class="col-md-3 offset-md-5" *ngIf="isUserLoggedin">Welcome {{userName}} </div>
+    <div class="col-md-3 offset-md-5" *ngIf="isUserLoggedin">Welcome {{userName | uppercase}} </div>
 
     <div class="col-md-4">
       <ul class="navbar-nav">

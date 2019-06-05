@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppService } from './../../app.service';
 import { ToastrService } from 'ngx-toastr';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { DataSharedService } from 'src/app/shared/data-shared.service';
 
 @Component({
   selector: 'app-list',
@@ -56,8 +57,9 @@ export class ListComponent implements OnInit {
   };
   private data: Array<any> = this.issueListbyUser;
 
-  public constructor(private router: Router, private appService: AppService, private toastr: ToastrService) {
+  public constructor(private dataShared: DataSharedService, private router: Router, private appService: AppService, private toastr: ToastrService) {
     this.length = this.data.length;
+    this.dataShared.isUserLoggedIn.next(true);
   }
 
   public ngOnInit(): void {
