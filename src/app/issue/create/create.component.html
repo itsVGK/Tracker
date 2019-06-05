@@ -10,34 +10,45 @@
           <input [(ngModel)]="title" type="text" name="title" class="form-control" id="title" #tit="ngModel" required>
         </div>
       </div>
+      <div [hidden]='tit.valid || tit.pristine' class="alert alert-danger">
+        Title required
+      </div>
 
       <div class="form-group row">
         <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-10">
-          <select [(ngModel)]="status" name="status" class="form-control" id="status" required>
+          <select [(ngModel)]="status" type="text" name="status" class="form-control" #stat1="ngModel" id="status"
+            required>
             <option *ngFor="let stat of statusList" [value]="stat">{{stat}}</option>
           </select>
         </div>
+      </div>
+      <div [hidden]='stat1.valid || stat1.pristine' class="alert alert-danger">
+        Status required
       </div>
 
       <div class="form-group row">
         <label for="assignee" class="col-sm-2 col-form-label">Assignee</label>
         <div class="col-sm-10">
-          <select [(ngModel)]="assignee" name="assignee" class="form-control" id="assignee" required>
-            <option *ngFor="let assignee of assigneeList" value="bSqHdmeD6">{{assignee.firstName}} {{assignee.lastName}}
+          <select [(ngModel)]="assignee" type="text" name="assignee" class="form-control" id="assignee" #assn="ngModel" required>
+            <option *ngFor="let assignee of assigneeList" value="{{assignee.assigneeId}}">{{assignee.firstName}} {{assignee.lastName}}
             </option>
           </select>
         </div>
+      </div>
+      <div [hidden]='assn.valid || assn.pristine' class="alert alert-danger">
+        Assignee required
       </div>
 
       <div class="form-group row">
         <label for="description" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
-          <angular-editor name="description" [(ngModel)]="description" ></angular-editor>
-          <!-- <input [(ngModel)]="description" type="text" name="description" class="form-control" id="description"
-            required> -->
+          <angular-editor name="description" [(ngModel)]="description" id="description" #desc="ngModel"
+            aria-required="required">
+          </angular-editor>
         </div>
       </div>
+
       <!-- <div class="form-group row">
         <label for="comments" class="col-sm-2 col-form-label">Comments</label>
         <div class="col-sm-10">
@@ -45,7 +56,7 @@
         </div>
       </div> -->
       <div>
-        <button type="submit" class="btn btn-primary mb-2">Submit Request</button>
+        <button type="submit" [disabled]="!createForm.form.valid" class="btn btn-primary">Submit Request</button>
       </div>
 
     </form>

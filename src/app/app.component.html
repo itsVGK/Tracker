@@ -15,25 +15,19 @@
     <div class="container-fluid margintop">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark ft-color">
 
-            <a class="navbar-brand" href="/">Issue Tracker</a>
-            <div *ngIf="isLoggedIn===authToken">Welcome {{userName}} </div>
+            <div class="col-md-3">
+                <a class="navbar-brand" href="/">Issue Tracker</a>
+            </div>
 
-            <ul class="navbar-nav">
-                <li *ngIf="isLoggedIn===authToken"> <a class="activeDiv  ft-color" href='login'
-                        (click)="logout()">Logout</a></li>
-                <li *ngIf="isLoggedIn!=authToken"><a class="activeDiv  ft-color" href='login'>Login</a></li>
-            </ul>
+            <div class="col-md-3 offset-md-5" *ngIf="isLoggedIn===authToken">Welcome {{userName}} </div>
 
-            <!-- <button *ngIf="isLoggedIn===authToken" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="notify">Notifications <span>{{count}}</span>
-            </button>
-            <div  *ngIf="isLoggedIn===authToken" id="notify" [ngbCollapse]="isCollapsed">
-                <div class="card">
-                    <div class="card-body">
-                        You can collapse this card by clicking Toggle
-                    </div>
-                </div>
-            </div> -->
+            <div class="col-md-4">
+                <ul class="navbar-nav">
+                    <li *ngIf="isLoggedIn===authToken"> <a class="activeDiv  ft-color" href='login'
+                            (click)="logout()">Logout</a></li>
+                    <li *ngIf="isLoggedIn!=authToken"><a class="activeDiv  ft-color" href='login'>Login</a></li>
+                </ul>
+            </div>
 
         </nav>
     </div>

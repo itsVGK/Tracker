@@ -12,14 +12,12 @@ export class RouteGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (Cookie.get('authToken') === undefined || Cookie.get('authToken') === '' || Cookie.get('authToken') === null) {
 
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
 
       return false;
 
-    } else {
-
-      return true;
-
+    }  else {
+      return true
     }
   }
 

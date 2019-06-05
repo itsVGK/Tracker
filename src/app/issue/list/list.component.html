@@ -1,21 +1,43 @@
-<div class="row">
-  <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
+<!-- new -->
 
-  <form class="form-inline">
-    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-    <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
-  </form>
+<div class="row">
+
+  <div class="col-md-2">
+    <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
+  </div>
+
+  <div class="col-md-4">
+    <input *ngIf="config.filtering" placeholder="Search" [ngTableFiltering]="config.filtering"
+      class="form-control" (tableChanged)="onChangeTable(config)" />
+  </div>
+
 </div>
 
-<div class="container-fluid margintop">
+<br>
 
-  <div *ngIf="issueListbyUser.length==0">
+<ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
+  [columns]="columns" id="activeIssue">
+</ng-table>
+
+<pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
+  [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false"
+  (pageChanged)="onChangeTable(config, $event)" (numPages)="numPages = $event" >
+</pagination>
+
+<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+
+<!-- end new -->
+
+
+<!-- <div class="container-fluid margintop"> -->
+
+<!-- <div *ngIf="issueListbyUser.length==0">
     No Issues Available
   </div>
 
   <div *ngIf="issueListbyUser.length>0">
 
-    <!-- <table class="table">
+     <table class="table">
       <thead>
         <tr>
           <th>#issueId</th>
@@ -32,36 +54,7 @@
           <td>{{issue.status}}</td>
           <td>{{issue.title}}</td>
           <td>{{issue.reportee}}</td>
-          <td>{{issue.date|date:'medium'}}</td>
+          <td>{{issue.date|date:'short'}}</td>
         </tr>
       </tbody>
     </table> -->
-
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
-
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort >
-
-        <mat-text-column name="issueId">{{issueId}}</mat-text-column>
-
-        <mat-text-column name="title">{{title}}</mat-text-column>
-
-        <mat-text-column name="status">{{status}}</mat-text-column>
-
-        <mat-text-column name="reportee">{{reportee}}</mat-text-column>
-
-        <mat-text-column name="date">{{date|date:'short'}}</mat-text-column>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="activeIssue" (click)="issueSelected(row)">
-        </tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </div>
-
-
-  </div>
-</div>
