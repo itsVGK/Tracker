@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { AppService } from './../../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
