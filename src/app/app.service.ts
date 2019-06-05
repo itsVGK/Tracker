@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponseBase, HttpParams } from '@angular/common/http';
+import { FileUploader } from 'ng2-file-upload';
 
 import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/catch';
@@ -88,6 +89,12 @@ export class AppService {
       .set('userId', watch.userId);
 
     return this.http.post(`${this.url}/addWatch`, params);
+  }
+
+  //to upload files
+  public uploadFiles(uploader): void {
+    
+      // uploader: FileUploader = new FileUploader({ url: '' });
   }
 
 }
