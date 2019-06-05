@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
           this.loggedIn = true;
           let userName = result.data.firstName + ' ' + result.data.lastName;
           Cookie.set('userId', result.data.userId);
+          Cookie.set('authToken', 'admin');
           this.dataShared.isUserLoggedIn.next(true);
           this.dataShared.userName.next(userName)
           this.toastr.success('Logged In Successfully', 'Success')
