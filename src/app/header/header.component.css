@@ -1,0 +1,20 @@
+.margintop{
+    padding-top: 2%;
+}
+
+.spacing{
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.ft-color{
+    color: azure;
+}
+
+.activeDiv:hover{
+    color: coral
+}
+
+.enableOnHover:hover{
+    color: aqua;
+}

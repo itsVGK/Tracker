@@ -24,10 +24,4 @@ export class AppComponent implements OnInit {
     this.userName = Cookie.get('userName');
     this.isLoggedIn = Cookie.get('authToken');
   }
-
-  logout = () => {
-    Cookie.delete('authToken');
-    Cookie.delete('userName');
-    this.router.navigate(['login']);
-  }
 }
