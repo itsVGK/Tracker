@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
       filtering: { filterString: '', placeholder: 'Filter by Title' }, name: 'title', sort: 'asc'
     },
     { title: 'REPORTEE', className: 'text-success', name: 'reportee', sort: '', filtering: { filterString: '', placeholder: 'Filter by reportee.' } },
-    { title: 'DATE', className: 'text-success', name: 'date' },
+    { title: 'DATE', filtering: { filterString: '', placeholder: 'Filter by Date' }, className: 'text-success', name: 'date' },
   ];
 
   public page: number = 1;
@@ -178,7 +178,7 @@ export class ListComponent implements OnInit {
                   return;
                 } else {
                   reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
-                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId':dat[x].reporteeId };
+                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId': dat[x].reporteeId };
                   this.issueListbyUser.push(tem);
                 }
               })

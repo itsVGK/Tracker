@@ -36,7 +36,7 @@
           <input placeholder="password" type="password" name="password" [(ngModel)]="password" id="password"
             class="form-control" #pass="ngModel" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-small">Create</button>
+        <button type="submit" [disabled]="!signupForm.form.valid" class="btn btn-primary btn-small">Create</button>
       </form>
     </div>
 
