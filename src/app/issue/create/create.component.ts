@@ -12,12 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreateComponent implements OnInit {
 
-  public assigneeList: any = ['sam1', 'sam2'];
+  public assigneeList: any;
   public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
 
   public status: String;
   public title: String;
-  public assignee: String = "nt6IzALE2";
+  public assignee: any;
   public description: String;
   public reporteeId: String;
 
@@ -37,8 +37,8 @@ export class CreateComponent implements OnInit {
             let tem = { 'firstName': result.data[x].firstName, 'lastName': result.data[x].lastName, 'assigneeId': result.data[x].userId };
             this.assigneeList.push(tem);
           }
-        }else{
-          this.assigneeList=['No Assignees Available'];
+        } else {
+          this.assigneeList = ['No Assignees Available'];
         }
       }
     )
@@ -53,7 +53,6 @@ export class CreateComponent implements OnInit {
       description: this.description,
       reporteeId: this.reporteeId
     }
-    console.log(issue)
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {

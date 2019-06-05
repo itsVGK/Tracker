@@ -1,6 +1,6 @@
 <div class="row margintop">
   <div class="col-md-8 offset-md-1">
-    <div>Edit Request</div><br>
+    <div>Issue Description</div><br>
 
     <form #editForm="ngForm" (ngSubmit)="editform()">
 
@@ -34,7 +34,8 @@
         <div class="col-sm-10">
           <select [disabled]="!enableEdit" [(ngModel)]="assignee" name="assignee" class="form-control" id="assignee"
             required>
-            <option *ngFor="let assignee of assigneeList" [value]="assignee">{{assignee}}</option>
+            <option *ngFor="let assignee of assigneeList" value="{{assignee.assigneeId}}">{{assignee.firstName}}
+              {{assignee.lastName}}</option>
           </select>
         </div>
       </div>
@@ -62,11 +63,14 @@
       <div>
         <button *ngIf="enableEdit" type="submit" class="btn btn-primary mb-2">Save Edit</button>
       </div>
-      <div>
-        <button *ngIf="!enableEdit" type="button" (click)="enableEditForm()" class="btn btn-primary mb-2">Edit</button>
-      </div>
-      <div>
-        <button type="button" (click)="addWatch()" class="btn btn-primary mb-2">Watch</button>
+      <div class="row">
+        <div class="col-md-4">
+          <button *ngIf="!enableEdit" type="button" (click)="enableEditForm()"
+            class="btn btn-primary mb-2">Edit</button>
+        </div>
+        <div class="col-md-4">
+          <button type="button" (click)="addWatch()" class="btn btn-primary mb-2">Watch</button>
+        </div>
       </div>
     </form>
 

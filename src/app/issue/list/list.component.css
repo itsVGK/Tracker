@@ -2,24 +2,7 @@
     padding-top: 2%
 }
 
-.activeIssue:hover{
+#activeIssue:hover{
     background-color: cornsilk;
+    align-items: center;
 }
-
-table {
-    width: 100%;
-  }
-  
-  .mat-form-field {
-    font-size: 17px;
-    width: 100%;
-  }
-  
-  td, th {
-    width: 25%;
-  }
-
-  input{
-    color: blue
-  }
-  

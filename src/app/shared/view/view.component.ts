@@ -21,7 +21,7 @@ export class ViewComponent implements OnInit {
   public reporteeName: String
   public description: String;
   public comments: any;
-  public assignee: String;
+  public assignee: any;
   public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
   public assigneeList: any;
   public enableEdit: boolean = false;
@@ -30,7 +30,6 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    // this.status = this.statusList[3];
     this.getAssigneeList();
     this.getIssuebyId(this.issueId);
   }
@@ -47,8 +46,7 @@ export class ViewComponent implements OnInit {
         } else {
           this.assigneeList = ['No Assignees Available'];
         }
-      }
-    )
+      })
   }
 
   getIssuebyId = (issueId) => {
@@ -73,7 +71,8 @@ export class ViewComponent implements OnInit {
               if (data.status == 400) {
                 return;
               } else {
-                this.assignee = data.data[0].firstName + ' ' + data.data[0].lastName;
+                this.assignee= { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
+                console.log(this.assignee);
               }
             })
           this.description = issue.data[0].description;
@@ -93,12 +92,12 @@ export class ViewComponent implements OnInit {
     let editedValue = {
       title: this.title,
       status: this.status,
-      // reportee: this.reportee,
       description: this.description,
       comments: this.comments,
       assignee: this.assignee,
       issueId: this.issueId
     }
+    console.log(editedValue)
     this.appService.updateIssueByUser(editedValue).subscribe(
       (result) => {
         if (result.status === 200) {

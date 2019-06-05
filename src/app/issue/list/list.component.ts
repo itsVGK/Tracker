@@ -4,8 +4,6 @@ import { AppService } from './../../app.service';
 import { ToastrService } from 'ngx-toastr';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
-import { Dashboard } from './dashboard';
-
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -28,20 +26,24 @@ export class ListComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: 'issueId', name: 'issueId', filtering: { filterString: '', placeholder: 'Filter by issueId' } },
+    { title: 'ISSUE ID', className: 'text-success', name: 'issueId', filtering: { filterString: '', placeholder: 'Filter by issueId' } },
     {
-      title: 'status',
+      title: 'STATUS',
+      className: 'text-success',
       name: 'status',
-      sort: false,
+      sort: true,
       filtering: { filterString: '', placeholder: 'Filter by status' }
     },
-    { title: 'title', className: ['office-header', 'text-success'], name: 'title', sort: 'asc' },
-    { title: 'reportee.', name: 'reportee', sort: '', filtering: { filterString: '', placeholder: 'Filter by reportee.' } },
-    { title: 'date', className: 'text-warning', name: 'date' },
+    {
+      title: 'TITLE', className: ['office-header', 'text-success'],
+      filtering: { filterString: '', placeholder: 'Filter by Title' }, name: 'title', sort: 'asc'
+    },
+    { title: 'REPORTEE', className: 'text-success', name: 'reportee', sort: '', filtering: { filterString: '', placeholder: 'Filter by reportee.' } },
+    { title: 'DATE', className: 'text-success', name: 'date' },
   ];
 
   public page: number = 1;
-  public itemsPerPage: number = 10;
+  public itemsPerPage: number = 5;
   public maxSize: number = 5;
   public numPages: number = 1;
   public length: number = 0;
@@ -53,12 +55,6 @@ export class ListComponent implements OnInit {
     className: ['table-striped', 'table-bordered']
   };
   private data: Array<any> = this.issueListbyUser;
-  //   private data: Array<any> = [{
-  //     'issueId': 'issue', 'status': 'status', 'title': 'dat[x].titl', 'reportee': 'reporteeName', 'date': 'dat[x].createdOn'
-  //   },
-  // {
-  //     'issueId': 'issue1', 'status': 'status', 'title': 'dat[x].titl', 'reportee': 'reporteeName', 'date': 'dat[x].createdOn'
-  //   }];
 
   public constructor(private router: Router, private appService: AppService, private toastr: ToastrService) {
     this.length = this.data.length;
@@ -67,11 +63,9 @@ export class ListComponent implements OnInit {
   public ngOnInit(): void {
     this.userId = Cookie.get('userId')
     this.getAllIssuesByAssignee();
-    console.log('timer start')
     setTimeout(() => {
       this.onChangeTable(this.config);
-    }, 3000);
-    console.log('timer stop')
+    }, 2000);
   }
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -147,7 +141,6 @@ export class ListComponent implements OnInit {
   }
 
   public onChangeTable(config: any, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }): any {
-    console.log('in change')
     this.data = this.issueListbyUser;
     if (config.filtering) {
       Object.assign(this.config.filtering, config.filtering);
@@ -164,12 +157,14 @@ export class ListComponent implements OnInit {
   }
 
   public onCellClick(data: any): any {
-    console.log(data);
+    // console.log(data.row.issueId);
+    this.router.navigate(['/view', data.row.issueId]);
   }
 
   public getAllIssuesByAssignee(): any {
     this.appService.getAllIssuesByAssignee(this.userId).subscribe(
       (issues) => {
+        console.log(issues)
         if (issues.status == 400) {
           this.toastr.warning('No Issues were Assigned', 'Enjoy');
         }
@@ -183,21 +178,14 @@ export class ListComponent implements OnInit {
                   return;
                 } else {
                   reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
-                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn };
+                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId':dat[x].reporteeId };
                   this.issueListbyUser.push(tem);
                 }
               })
           }
-          console.log('gng to call')
+          console.log(this.issueListbyUser)
           this.onChangeTable(this.config, true);
-          console.log('called')
         }
       })
   }
-
-  issueSelected = (issueId) => {
-    this.router.navigate(['/view', issueId]);
-  }
-
-
 }

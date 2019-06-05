@@ -63,7 +63,7 @@ export class AppService {
     return this.http.get(`${this.url}/getBy/issue/${issueId}`);
   }
 
-  public getUserbyId(userId):Observable<any>{
+  public getUserbyId(userId): Observable<any> {
     return this.http.get(`${this.url}/users/${userId}`);
   }
 
@@ -75,7 +75,9 @@ export class AppService {
       .set('assignee', issue.assignee)
       // .set('reporteeId', issue.reporteeId)
       .set('description', issue.description)
-      .set('comments', issue.comments)
+      .set('comments', issue.comments);
+    console.log(params);
+    console.log(issue.issueId);
     return this.http.post(`${this.url}/update/:${issue.issueId}`, params);
   }
 
