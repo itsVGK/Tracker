@@ -30,8 +30,6 @@ import { HeaderComponent } from './header/header.component';
     BrowserModule,
     BrowserAnimationsModule,
     AngularEditorModule,
-    // MatInputModule,
-    // MatFormFieldModule,
     ToastrModule.forRoot()
   ],
   providers: [],

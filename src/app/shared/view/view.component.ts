@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { AppService } from './../../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
 import { FileUploader } from 'ng2-file-upload';
+
+import { DataSharedService } from './../data-shared.service';
 
 @Component({
   selector: 'app-view',
@@ -26,16 +28,20 @@ export class ViewComponent implements OnInit {
   public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
   public assigneeList: any;
   public enableEdit: boolean = false;
+  public notificationList: Array<any> = [];
+  public watchersList: Array<any> = [];
 
-  constructor(private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     this.getAssigneeList();
+    this.getNotifications();
+    this.getWatchers();
     this.getIssuebyId(this.issueId);
   }
 
-  public uploader:FileUploader =new FileUploader({url:''});
+  public uploader: FileUploader = new FileUploader({ url: '' });
 
   getAssigneeList = () => {
     this.appService.getAssigneeList().subscribe(
@@ -52,6 +58,29 @@ export class ViewComponent implements OnInit {
       })
   }
 
+  getNotifications = () => {
+    this.notificationList = ['notify1', 'notify2'];
+    this.appService.getNotificationforUser(this.userId).subscribe(
+      (data) => {
+        if (data.status == 400) {
+        } else {
+        }
+      }
+    );
+  }
+
+  getWatchers = () => {
+    this.watchersList = ['watcher1', 'watcher2']
+    this.appService.getWatcherforIssue(this.issueId).subscribe(
+      (data) => {
+        if (data.status == 400) {
+        } else {
+        }
+      }
+    );
+  }
+
+  //to display in form
   getIssuebyId = (issueId) => {
     this.appService.getIssuebyId(issueId).subscribe(
       (issue) => {
@@ -89,6 +118,9 @@ export class ViewComponent implements OnInit {
     this.enableEdit = true;
   }
 
+  @Output() notifyUsersOnEditForm: EventEmitter<any> = new EventEmitter();
+
+  //save the updated form
   editform = () => {
 
     let editedValue = {
@@ -97,14 +129,17 @@ export class ViewComponent implements OnInit {
       description: this.description,
       comments: this.comments,
       assignee: this.assignee,
-      issueId: this.issueId
+      issueId: this.issueId,
+      reporteeId: this.userId
     }
     this.appService.uploadFiles(this.uploader);
     console.log(editedValue)
+    // this.notifyUsersOnEditForm.emit(editedValue);
     this.appService.updateIssueByUser(editedValue).subscribe(
       (result) => {
         if (result.status === 200) {
           this.toastr.success('Issue Details Updated Successfully', 'Updated')
+          this.dataShared.updateNotification(editedValue);
           this.router.navigate(['list']);
         } else {
           this.toastr.warning('Unable to update th issue');

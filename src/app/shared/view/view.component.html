@@ -117,7 +117,7 @@
           <div *ngIf="uploader.queue.length>1">
             <div>
               Queue progress:
-              <div class="progress" >
+              <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
               </div>
             </div>
@@ -154,4 +154,39 @@
     </form>
 
   </div>
-  <!-- </div> -->
+
+  <div class="col-md-3">
+    <div class="row">
+      Notifications
+    </div><br>
+
+    <div class="row">
+      <div *ngIf="notificationList.length>0">
+        <ul *ngFor="let notifi of notificationList">
+          <li>{{notifi}}</li>
+        </ul>
+      </div>
+      <div *ngIf="!notificationList.length>0">
+        <ul>No Notifications Available</ul>
+      </div>
+    </div>
+
+
+    <div class="row">
+      Watchers list
+    </div>
+    <br>
+    <div class="row">
+      <div *ngIf="watchersList.length>0">
+        <ul *ngFor="let watcher of watchersList">
+          <li>{{watcher}}</li>
+        </ul>
+      </div>
+      <div *ngIf="!watchersList.length>0">
+        <ul>No Watchers Available</ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>

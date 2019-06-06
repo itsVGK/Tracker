@@ -91,10 +91,33 @@ export class AppService {
     return this.http.post(`${this.url}/addWatch`, params);
   }
 
+  //get watchers list for specific issueId
+  public getWatcherforIssue(issueId): Observable<any> {
+    return this.http.get(`${this.url}/getWatcher/${issueId}`);
+  }
+
   //to upload files
   public uploadFiles(uploader): void {
-    
-      // uploader: FileUploader = new FileUploader({ url: '' });
+
+    // uploader: FileUploader = new FileUploader({ url: '' });
+  }
+
+  //check is there any notifications available for user from "watch Issue"
+  public updateNotification(editedValue): Observable<any> {
+    let params = new HttpParams()
+      .set('changerId', editedValue.reporteeId)
+      .set('title', editedValue.title)
+      .set('status', editedValue.status)
+      .set('assignee', editedValue.assignee)
+      .set('description', editedValue.description)
+      .set('comments', editedValue.comments)
+      .set('issueId', editedValue.issueId);
+    return this.http.post(`${this.url}/updateNote/${editedValue.issueId}`, params);
+  }
+
+  //get notification for specific user
+  public getNotificationforUser(userId): Observable<any> {
+    return this.http.get(`${this.url}/getNote/${userId}`);
   }
 
 }
