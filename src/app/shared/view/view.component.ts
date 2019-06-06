@@ -4,6 +4,7 @@ import { AppService } from './../../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-view',
@@ -33,6 +34,8 @@ export class ViewComponent implements OnInit {
     this.getAssigneeList();
     this.getIssuebyId(this.issueId);
   }
+
+  public uploader:FileUploader =new FileUploader({url:''});
 
   getAssigneeList = () => {
     this.appService.getAssigneeList().subscribe(
@@ -71,8 +74,7 @@ export class ViewComponent implements OnInit {
               if (data.status == 400) {
                 return;
               } else {
-                this.assignee= { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
-                console.log(this.assignee);
+                this.assignee = { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
               }
             })
           this.description = issue.data[0].description;
@@ -97,6 +99,7 @@ export class ViewComponent implements OnInit {
       assignee: this.assignee,
       issueId: this.issueId
     }
+    this.appService.uploadFiles(this.uploader);
     console.log(editedValue)
     this.appService.updateIssueByUser(editedValue).subscribe(
       (result) => {

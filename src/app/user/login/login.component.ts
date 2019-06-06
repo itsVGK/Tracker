@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router'
 import { AppService } from './../../app.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
+import { DataSharedService } from './../../shared/data-shared.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   public password: string;
   public loggedIn: boolean = false;
 
-  constructor(private router: Router, private appService: AppService, private toastr: ToastrService) { }
+  constructor(private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) { }
 
   ngOnInit() {
   }
@@ -28,16 +29,15 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
-    // Cookie.set('userName', 'userName')  //TBD
-    // Cookie.set('authToken', 'admin');  //TBD
-
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
           this.loggedIn = true;
+          let userName = result.data.firstName + ' ' + result.data.lastName;
           Cookie.set('userId', result.data.userId);
-          Cookie.set('userName', result.data.firstName + ' ' + result.data.lastName);
           Cookie.set('authToken', 'admin');
+          this.dataShared.isUserLoggedIn.next(true);
+          this.dataShared.userName.next(userName)
           this.toastr.success('Logged In Successfully', 'Success')
           this.router.navigate(['list']);
         } else {
