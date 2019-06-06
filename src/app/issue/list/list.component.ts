@@ -20,7 +20,7 @@ export class ListComponent implements OnInit {
   public description: String;
   public assignee: String;
   public date: any;
-
+  public getForMe: boolean = true;
   public issueListbyUser: Array<any> = [];
 
   //new
@@ -64,11 +64,22 @@ export class ListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.userId = Cookie.get('userId')
-    this.getAllIssuesByAssignee();
+    this.getIssues();
     setTimeout(() => {
       this.onChangeTable(this.config);
     }, 2000);
   }
+
+  public assignedToMe(isAssignedToMe) {
+    if (isAssignedToMe) {
+      this.getForMe = true;
+    } else {
+      this.getForMe = false;
+    }
+    this.getIssues();
+    console.log(this.getForMe)
+  }
+
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
     let end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : data.length;
@@ -163,31 +174,67 @@ export class ListComponent implements OnInit {
     this.router.navigate(['/view', data.row.issueId]);
   }
 
-  public getAllIssuesByAssignee(): any {
-    this.appService.getAllIssuesByAssignee(this.userId).subscribe(
-      (issues) => {
-        // console.log(issues)
-        if (issues.status == 400) {
-          this.toastr.warning('No Issues were Assigned', 'Enjoy');
-        }
-        else {
-          let dat = issues.data
-          for (let x in dat) {
-            let reporteeName;
-            this.appService.getUserbyId(dat[x].reporteeId).subscribe(
-              (data) => {
-                if (data.status == 400) {
-                  return;
-                } else {
-                  reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
-                  let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId': dat[x].reporteeId };
-                  this.issueListbyUser.push(tem);
-                }
-              })
+  public getIssues(): any {
+    if (this.getForMe) {
+      this.appService.getAllIssuesByAssignee(this.userId).subscribe(
+        (issues) => {
+          this.issueListbyUser = [];
+          console.log('gng to get issues assigned to me')
+          // console.log(issues)
+          if (issues.status == 400) {
+            this.toastr.warning('No Issues were Assigned', 'Enjoy');
           }
-          // console.log(this.issueListbyUser)
-          this.onChangeTable(this.config, true);
-        }
-      })
+          else {
+            let dat = issues.data
+            for (let x in dat) {
+              let reporteeName;
+              this.appService.getUserbyId(dat[x].reporteeId).subscribe(
+                (data) => {
+                  if (data.status == 400) {
+                    return;
+                  } else {
+                    reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
+                    let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId': dat[x].reporteeId };
+                    this.issueListbyUser.push(tem);
+                  }
+                })
+            }
+            console.log(this.issueListbyUser)
+          }
+          setTimeout(() => {
+            this.onChangeTable(this.config, true);
+          }, 3000);
+        })
+    } else {
+      this.appService.getAllIssues().subscribe(
+        (issues) => {
+          this.issueListbyUser = [];
+          console.log('gng to get all issues')
+          // console.log(issues)
+          if (issues.status == 400) {
+            this.toastr.warning('No Issues were Available', 'Enjoy');
+          }
+          else {
+            let dat = issues.data
+            for (let x in dat) {
+              let reporteeName;
+              this.appService.getUserbyId(dat[x].reporteeId).subscribe(
+                (data) => {
+                  if (data.status == 400) {
+                    return;
+                  } else {
+                    reporteeName = data.data[0].firstName + ' ' + data.data[0].lastName;
+                    let tem = { 'issueId': dat[x].issueId, 'status': dat[x].status, 'title': dat[x].title, 'reportee': reporteeName, 'date': dat[x].createdOn, 'reporteeId': dat[x].reporteeId };
+                    this.issueListbyUser.push(tem);
+                  }
+                })
+            }
+            console.log(this.issueListbyUser)
+          }
+          setTimeout(() => {
+            this.onChangeTable(this.config, true);
+          }, 3000);
+        })
+    }
   }
 }

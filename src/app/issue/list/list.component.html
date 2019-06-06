@@ -1,60 +1,42 @@
 <!-- new -->
-
 <div class="row">
-
-  <div class="col-md-2">
-    <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
+  <div class="col">
+    <div class="row">
+      <div class="col">
+        <a (click)="assignedToMe(true)">Assigned To Me</a>
+      </div>
+      <div class="col">
+        <a (click)="assignedToMe(false)">All Users</a>
+      </div>
+    </div>
   </div>
 
-  <div class="col-md-4">
-    <input *ngIf="config.filtering" placeholder="Search" [ngTableFiltering]="config.filtering"
-      class="form-control" (tableChanged)="onChangeTable(config)" />
+  <div class="col">
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
+      </div>
+
+      <div class="col">
+        <input *ngIf="config.filtering" placeholder="Search" [ngTableFiltering]="config.filtering" class="form-control"
+          (tableChanged)="onChangeTable(config)" />
+      </div>
+    </div>
   </div>
 
+  <br>
+
+  <div class="col">
+    <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
+      [columns]="columns" id="activeIssue">
+    </ng-table>
+
+    <pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
+      [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false"
+      (pageChanged)="onChangeTable(config, $event)" (numPages)="numPages = $event">
+    </pagination>
+
+    <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+  </div>
 </div>
-
-<br>
-
-<ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
-  [columns]="columns" id="activeIssue">
-</ng-table>
-
-<pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
-  [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false"
-  (pageChanged)="onChangeTable(config, $event)" (numPages)="numPages = $event" >
-</pagination>
-
-<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
-
-<!-- end new -->
-
-
-<!-- <div class="container-fluid margintop"> -->
-
-<!-- <div *ngIf="issueListbyUser.length==0">
-    No Issues Available
-  </div>
-
-  <div *ngIf="issueListbyUser.length>0">
-
-     <table class="table">
-      <thead>
-        <tr>
-          <th>#issueId</th>
-          <th>Status</th>
-          <th>Title</th>
-          <th>Reportee</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-
-      <tbody class="activeIssue" *ngFor="let issue of issueListbyUser" (click)="issueSelected(issue.issueId)">
-        <tr>
-          <th scope="row">{{issue.issueId}}</th>
-          <td>{{issue.status}}</td>
-          <td>{{issue.title}}</td>
-          <td>{{issue.reportee}}</td>
-          <td>{{issue.date|date:'short'}}</td>
-        </tr>
-      </tbody>
-    </table> -->

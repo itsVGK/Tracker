@@ -60,6 +60,10 @@ export class AppService {
     return this.http.get(`${this.url}/getBy/assignee/${assignee}`);
   }
 
+  public getAllIssues(): Observable<any> {
+    return this.http.get(`${this.url}/issues`)
+  }
+
   //for View view to get
   public getIssuebyId(issueId): Observable<any> {
     return this.http.get(`${this.url}/getBy/issue/${issueId}`);
