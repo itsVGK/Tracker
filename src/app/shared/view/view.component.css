@@ -1,3 +1,13 @@
 .margintop{
     padding-top: 1%
 }
+
+.example-viewport {
+    height: 40%;
+    width: 100%;
+    border: 1px solid rgba(204, 226, 219, 0.61);
+  }
+  
+  .example-item {
+    height: 40%;
+  }

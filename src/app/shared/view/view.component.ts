@@ -39,6 +39,7 @@ export class ViewComponent implements OnInit {
     this.getNotifications();
     this.getWatchers();
     this.getIssuebyId(this.issueId);
+    this.dataShared.isUserLoggedIn.next(true);
   }
 
   public uploader: FileUploader = new FileUploader({ url: '' });
@@ -70,14 +71,18 @@ export class ViewComponent implements OnInit {
   }
 
   getWatchers = () => {
-    this.watchersList = ['watcher1', 'watcher2']
+    this.watchersList = [];
     this.appService.getWatcherforIssue(this.issueId).subscribe(
       (data) => {
-        if (data.status == 400) {
+        console.log(data)
+        if (data.status == 200) {
+          let users = data.data.usersId;
+          for (let user in users) {
+            this.watchersList.push(users[user]);  //replace with name
+          }
         } else {
         }
-      }
-    );
+      });
   }
 
   //to display in form

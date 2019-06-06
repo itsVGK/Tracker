@@ -157,7 +157,7 @@
 
   <div class="col-md-3">
 
-    <div class="row">
+    <!-- <div class="row">
       Notifications
     </div><br>
 
@@ -167,13 +167,13 @@
           {{notify}}
         </div>
       </div>
-    </cdk-virtual-scroll-viewport>
+    </cdk-virtual-scroll-viewport> -->
 
     <div class="row">
       Watchers list
     </div><br>
 
-    <cdk-virtual-scroll-viewport itemSize="1" class="example-viewport">
+    <cdk-virtual-scroll-viewport itemSize="3" class="example-viewport">
       <div *ngIf="watchersList.length>0">
         <div *cdkVirtualFor="let watcher of watchersList" class="list">
           {{watcher}}
