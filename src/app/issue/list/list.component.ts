@@ -166,7 +166,7 @@ export class ListComponent implements OnInit {
   public getAllIssuesByAssignee(): any {
     this.appService.getAllIssuesByAssignee(this.userId).subscribe(
       (issues) => {
-        console.log(issues)
+        // console.log(issues)
         if (issues.status == 400) {
           this.toastr.warning('No Issues were Assigned', 'Enjoy');
         }
@@ -185,7 +185,7 @@ export class ListComponent implements OnInit {
                 }
               })
           }
-          console.log(this.issueListbyUser)
+          // console.log(this.issueListbyUser)
           this.onChangeTable(this.config, true);
         }
       })

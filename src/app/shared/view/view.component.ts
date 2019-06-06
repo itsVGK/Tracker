@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FileUploader } from 'ng2-file-upload';
 
 import { DataSharedService } from './../data-shared.service';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-view',
@@ -31,12 +32,13 @@ export class ViewComponent implements OnInit {
   public notificationList: Array<any> = [];
   public watchersList: Array<any> = [];
 
-  constructor(private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private socketService: SocketService, private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) {
+    this.getNotifications();
+  }
 
   ngOnInit() {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     this.getAssigneeList();
-    this.getNotifications();
     this.getWatchers();
     this.getIssuebyId(this.issueId);
     this.dataShared.isUserLoggedIn.next(true);
@@ -60,21 +62,18 @@ export class ViewComponent implements OnInit {
   }
 
   getNotifications = () => {
-    this.notificationList = ['notify1', 'notify2'];
-    this.appService.getNotificationforUser(this.userId).subscribe(
-      (data) => {
-        if (data.status == 400) {
-        } else {
-        }
-      }
-    );
+    this.socketService.getNotification().subscribe((note) => {
+      // console.log('received note ', note)
+      this.toastr.info(`issueid ${note.issueId} edited`, 'Edited');
+      // this.notificationList.push(`${note.issueId} is edited`);
+    })
   }
 
   getWatchers = () => {
     this.watchersList = [];
     this.appService.getWatcherforIssue(this.issueId).subscribe(
       (data) => {
-        console.log(data)
+        // console.log(data)
         if (data.status == 200) {
           let users = data.data.usersId;
           for (let user in users) {
@@ -123,8 +122,6 @@ export class ViewComponent implements OnInit {
     this.enableEdit = true;
   }
 
-  @Output() notifyUsersOnEditForm: EventEmitter<any> = new EventEmitter();
-
   //save the updated form
   editform = () => {
 
@@ -138,11 +135,12 @@ export class ViewComponent implements OnInit {
       reporteeId: this.userId
     }
     this.appService.uploadFiles(this.uploader);
-    console.log(editedValue)
+    // console.log(editedValue)
     // this.notifyUsersOnEditForm.emit(editedValue);
     this.appService.updateIssueByUser(editedValue).subscribe(
       (result) => {
         if (result.status === 200) {
+          this.socketService.updateChange(editedValue);
           this.toastr.success('Issue Details Updated Successfully', 'Updated')
           this.dataShared.updateNotification(editedValue);
           this.router.navigate(['list']);

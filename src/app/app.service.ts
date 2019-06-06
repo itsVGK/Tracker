@@ -78,8 +78,8 @@ export class AppService {
       // .set('reporteeId', issue.reporteeId)
       .set('description', issue.description)
       .set('comments', issue.comments);
-    console.log(params);
-    console.log(issue.issueId);
+    // console.log(params);
+    // console.log(issue.issueId);
     return this.http.post(`${this.url}/update/:${issue.issueId}`, params);
   }
 

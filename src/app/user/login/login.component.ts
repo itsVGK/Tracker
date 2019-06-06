@@ -5,6 +5,7 @@ import { AppService } from './../../app.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
 import { DataSharedService } from './../../shared/data-shared.service';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,17 @@ export class LoginComponent implements OnInit {
   public password: string;
   public loggedIn: boolean = false;
 
-  constructor(private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) { }
+  constructor(private socketService: SocketService, private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) {
+    this.isConnected();
+  }
 
   ngOnInit() {
+  }
+
+  isConnected() {
+    this.socketService.isConnected().subscribe((msg) => {
+      console.log('msg from socket ', msg)
+    })
   }
 
   login = () => {
