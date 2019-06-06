@@ -156,36 +156,30 @@
   </div>
 
   <div class="col-md-3">
+
     <div class="row">
       Notifications
     </div><br>
 
-    <div class="row">
+    <cdk-virtual-scroll-viewport itemSize="3" class="example-viewport">
       <div *ngIf="notificationList.length>0">
-        <ul *ngFor="let notifi of notificationList">
-          <li>{{notifi}}</li>
-        </ul>
+        <div *cdkVirtualFor="let notify of notificationList" class="list">
+          {{notify}}
+        </div>
       </div>
-      <div *ngIf="!notificationList.length>0">
-        <ul>No Notifications Available</ul>
-      </div>
-    </div>
-
+    </cdk-virtual-scroll-viewport>
 
     <div class="row">
       Watchers list
-    </div>
-    <br>
-    <div class="row">
+    </div><br>
+
+    <cdk-virtual-scroll-viewport itemSize="1" class="example-viewport">
       <div *ngIf="watchersList.length>0">
-        <ul *ngFor="let watcher of watchersList">
-          <li>{{watcher}}</li>
-        </ul>
+        <div *cdkVirtualFor="let watcher of watchersList" class="list">
+          {{watcher}}
+        </div>
       </div>
-      <div *ngIf="!watchersList.length>0">
-        <ul>No Watchers Available</ul>
-      </div>
-    </div>
+    </cdk-virtual-scroll-viewport>
 
   </div>
 
