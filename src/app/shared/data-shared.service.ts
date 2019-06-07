@@ -32,4 +32,20 @@ export class DataSharedService {
     })
   }
 
+  public getuserName = (userId) => {
+    this.appService.getUserbyId(userId).subscribe(
+      (data) => {
+        if (data.status == 400) {
+          return;
+        } else {
+          let user = {
+            'userName': data.data[0].firstName + ' ' + data.data[0].lastName,
+            'userId': userId
+          }
+          return user;
+        }
+      })
+
+  }
+
 }
