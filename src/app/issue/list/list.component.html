@@ -5,10 +5,10 @@
   <div class="col">
     <div class="row">
       <div class="col">
-        <a (click)="assignedToMe(true)">Assigned To Me</a>
+        <button id='choose' class="btn btn-light bt" (click)="assignedToMe(true)">Assigned To Me</button>
       </div>
       <div class="col">
-        <a (click)="assignedToMe(false)">All Users</a>
+        <button id='choose' class="btn btn-light bt" (click)="assignedToMe(false)">All Issues</button>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@
 
   <div class="col">
     <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
-      [columns]="columns" id="activeIssue">
+      [columns]="columns" id="choose">
     </ng-table>
 
     <pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"

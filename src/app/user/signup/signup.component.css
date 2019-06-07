@@ -1,3 +1,9 @@
 .margintop{
     padding-top: 7%
 }
+
+#signup{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: rgb(106, 106, 161);
+}

@@ -10,10 +10,15 @@
     color: coral
 }
 
-.enableOnHover:hover{
-    color: aqua;
-}
-
 .pl{
     padding-left: 40%;
+}
+
+#header{
+    background-color: rgb(41, 72, 172);
+}
+
+#tracker{
+    font-size: 1.5em;
+    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

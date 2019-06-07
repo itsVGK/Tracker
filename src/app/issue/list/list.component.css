@@ -6,3 +6,14 @@
     background-color: cornsilk;
     align-items: center;
 }
+
+.bt{
+    font-size: 1em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#choose:hover{
+    background-color: burlywood;
+    cursor: pointer;
+    font-size: 1em;
+}
