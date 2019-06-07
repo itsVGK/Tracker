@@ -145,6 +145,7 @@ export class ViewComponent implements OnInit {
     this.noteSet.forEach(note => {
       this.noteList.push(note);
     })
+    console.log(this.noteList)
 
     this.appService.updateIssueByUser(this.currIssue).subscribe(
       (result) => {

@@ -2,11 +2,6 @@
     padding-top: 2%;
 }
 
-.spacing{
-    padding-left: 4%;
-    padding-right: 4%;
-}
-
 .ft-color{
     color: azure;
 }
@@ -17,4 +12,8 @@
 
 .enableOnHover:hover{
     color: aqua;
+}
+
+.pl{
+    padding-left: 40%;
 }
