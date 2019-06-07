@@ -19,28 +19,31 @@ export class ViewComponent implements OnInit {
 
   public userId: String;
   public issueId: String;
-  public title: String;
-  public status: String;
+  // public title: String;
+  // public status: String;
   public reportee: String;
-  public reporteeName: String
-  public description: String;
-  public comments: any;
-  public assignee: any;
+  // public reporteeName: String
+  // public description: String;
+  // public comments: any;
+  // public assignee: any;
   public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
   public assigneeList: any;
   public enableEdit: boolean = false;
-  public notificationList: Array<any> = [];
-  public watchersList: Array<any> = [];
+  // public notificationList: Array<any> = [];
+  public watchersList: any;
+  public noteSet: Set<any> = new Set();
+  public noteList: Array<any> = [];
+  public currIssue: any = [];
 
   constructor(private socketService: SocketService, private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) {
-    this.getNotifications();
+    this.getAssigneeList();
+    this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
   }
 
   ngOnInit() {
-    this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    this.getAssigneeList();
-    this.getWatchers();
+    this.userId = Cookie.get('userId');
     this.getIssuebyId(this.issueId);
+    this.getWatchers();
     this.dataShared.isUserLoggedIn.next(true);
   }
 
@@ -61,25 +64,24 @@ export class ViewComponent implements OnInit {
       })
   }
 
-  getNotifications = () => {
-    this.socketService.getNotification().subscribe((note) => {
-      // console.log('received note ', note)
-      this.toastr.info(`issueid ${note.issueId} edited`, 'Edited');
-      // this.notificationList.push(`${note.issueId} is edited`);
-    })
-  }
-
   getWatchers = () => {
     this.watchersList = [];
     this.appService.getWatcherforIssue(this.issueId).subscribe(
       (data) => {
-        // console.log(data)
         if (data.status == 200) {
           let users = data.data.usersId;
           for (let user in users) {
-            this.watchersList.push(users[user]);  //replace with name
+            this.noteSet.add(users[user]);
+            this.appService.getUserbyId(users[user]).subscribe((data1) => {
+              if (data1.status == 400) {
+              } else {
+                this.watchersList.push(data1.data[0].firstName + ' ' + data1.data[0].lastName)
+              }
+            })
           }
+          // console.log('note list', this.noteList);
         } else {
+          this.watchersList.push('No Watchers Subscribed');
         }
       });
   }
@@ -90,28 +92,31 @@ export class ViewComponent implements OnInit {
       (issue) => {
         if (issue.status === 200) {
           this.toastr.success("issue details were retrieved successfully", 'hurrahhh')
-          //set values for respective form variables
-          this.userId = issue.data[0].userId;
-          this.title = issue.data[0].title;
-          this.status = issue.data[0].status;
-          this.appService.getUserbyId(issue.data[0].reporteeId).subscribe(
+          this.currIssue = issue["data"][0];
+          // console.log(this.currIssue);
+          // console.log(this.currIssue.reporteeId);
+          // //set values for respective form variables
+          // this.userId = issue.data[0].userId;
+          // this.title = issue.data[0].title;
+          // this.status = issue.data[0].status;
+          this.appService.getUserbyId(this.currIssue.reporteeId).subscribe(
             (data) => {
               if (data.status == 400) {
-                return;
+                this.reportee = 'error';
               } else {
                 this.reportee = data.data[0].firstName + ' ' + data.data[0].lastName;
               }
             })
-          this.appService.getUserbyId(issue.data[0].assignee).subscribe(
-            (data) => {
-              if (data.status == 400) {
-                return;
-              } else {
-                this.assignee = { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
-              }
-            })
-          this.description = issue.data[0].description;
-          this.comments = issue.data[0].comments;
+          // this.appService.getUserbyId(issue.data[0].assignee).subscribe(
+          //   (data) => {
+          //     if (data.status == 400) {
+          //       return;
+          //     } else {
+          //       this.assignee = { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
+          //     }
+          //   })
+          // this.description = issue.data[0].description;
+          // this.comments = issue.data[0].comments;
         } else {
         }
       }
@@ -125,24 +130,27 @@ export class ViewComponent implements OnInit {
   //save the updated form
   editform = () => {
 
-    let editedValue = {
-      title: this.title,
-      status: this.status,
-      description: this.description,
-      comments: this.comments,
-      assignee: this.assignee,
-      issueId: this.issueId,
-      reporteeId: this.userId
-    }
+    // let editedValue = {
+    //   title: this.title,
+    //   status: this.status,
+    //   description: this.description,
+    //   comments: this.comments,
+    //   assignee: this.assignee,
+    //   issueId: this.issueId,
+    //   reporteeId: this.userId
+    // }
     this.appService.uploadFiles(this.uploader);
-    // console.log(editedValue)
-    // this.notifyUsersOnEditForm.emit(editedValue);
-    this.appService.updateIssueByUser(editedValue).subscribe(
+    console.log(this.currIssue)
+    this.noteSet.add(this.currIssue.assignee);
+    this.noteSet.forEach(note => {
+      this.noteList.push(note);
+    })
+
+    this.appService.updateIssueByUser(this.currIssue).subscribe(
       (result) => {
         if (result.status === 200) {
-          this.socketService.updateChange(editedValue);
+          this.socketService.updateChange(this.noteList, this.currIssue.issueId);
           this.toastr.success('Issue Details Updated Successfully', 'Updated')
-          this.dataShared.updateNotification(editedValue);
           this.router.navigate(['list']);
         } else {
           this.toastr.warning('Unable to update th issue');
@@ -162,6 +170,7 @@ export class ViewComponent implements OnInit {
     this.appService.updateWatchList(watch).subscribe(
       (result) => {
         if (result.status === 200) {
+          this.getWatchers();
           this.toastr.info('User Added to the watch List', 'Congratz')
         } else {
           this.toastr.info('User might Already be available in Watch list', 'OOPS')

@@ -75,16 +75,16 @@ export class AppService {
 
   //for View view- to update
   public updateIssueByUser(issue): Observable<any> {
-    const params = new HttpParams()
-      .set('title', issue.title)
-      .set('status', issue.status)
-      .set('assignee', issue.assignee)
-      // .set('reporteeId', issue.reporteeId)
-      .set('description', issue.description)
-      .set('comments', issue.comments);
+    // const params = new HttpParams()
+    //   .set('title', issue.title)
+    //   .set('status', issue.status)
+    //   .set('assignee', issue.assignee)
+    //   .set('reporteeId', issue.reporteeId)
+    //   .set('description', issue.description)
+    //   .set('comments', issue.comments);
     // console.log(params);
-    // console.log(issue.issueId);
-    return this.http.post(`${this.url}/update/:${issue.issueId}`, params);
+    // console.log(issue.issueId, issue);
+    return this.http.post(`${this.url}/update/:${issue.issueId}`, issue);
   }
 
   //for View view to update watch list
@@ -105,24 +105,6 @@ export class AppService {
   public uploadFiles(uploader): void {
 
     // uploader: FileUploader = new FileUploader({ url: '' });
-  }
-
-  //check is there any notifications available for user from "watch Issue"
-  public updateNotification(editedValue): Observable<any> {
-    let params = new HttpParams()
-      .set('changerId', editedValue.reporteeId)
-      .set('title', editedValue.title)
-      .set('status', editedValue.status)
-      .set('assignee', editedValue.assignee)
-      .set('description', editedValue.description)
-      .set('comments', editedValue.comments)
-      .set('issueId', editedValue.issueId);
-    return this.http.post(`${this.url}/updateNote/${editedValue.issueId}`, params);
-  }
-
-  //get notification for specific user
-  public getNotificationforUser(userId): Observable<any> {
-    return this.http.get(`${this.url}/getNote/${userId}`);
   }
 
 }

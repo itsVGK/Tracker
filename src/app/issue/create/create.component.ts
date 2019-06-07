@@ -53,10 +53,17 @@ export class CreateComponent implements OnInit {
       description: this.description,
       reporteeId: this.reporteeId
     }
+
     this.appService.createIssueService(issue).subscribe(
       (result) => {
         if (result.status === 200) {
           this.toastr.success('Issue Created Successfully', 'Success')
+          let watch = {
+            'issueId': result.data.issueId,
+            'userId': Cookie.get('userId')
+          }
+          console.log(watch)
+          this.appService.updateWatchList(watch);
           this.router.navigate(['list']);
         } else {
           this.toastr.error('Unable to create an Issue', 'Sorry')

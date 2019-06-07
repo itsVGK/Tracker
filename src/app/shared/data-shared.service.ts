@@ -22,30 +22,20 @@ export class DataSharedService {
   public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public userName: BehaviorSubject<String> = new BehaviorSubject<String>("");
 
-  public updateNotification = (editedValue) => {
-    this.appService.updateNotification(editedValue).subscribe((notify) => {
-      if (notify.status === 200) {
-        this.toastr.success('Notifications are Updated', 'Here')
-      } else {
-        this.toastr.success('Unable to retrieve the notifications', 'Try')
-      }
-    })
-  }
-
-  public getuserName = (userId) => {
-    this.appService.getUserbyId(userId).subscribe(
-      (data) => {
-        if (data.status == 400) {
-          return;
-        } else {
-          let user = {
-            'userName': data.data[0].firstName + ' ' + data.data[0].lastName,
-            'userId': userId
-          }
-          return user;
-        }
-      })
-
-  }
+  // public getuserName = (userId) => {
+  //   let user = null;
+  //   this.appService.getUserbyId(userId).subscribe(
+  //     (data) => {
+  //       if (data.status == 400) {
+  //       } else {
+  //         user = {
+  //           'userName': data.data[0].firstName + ' ' + data.data[0].lastName,
+  //           'userId': userId
+  //         }
+  //         console.log(user)
+  //       }
+  //     })
+  //   return user;
+  // }
 
 }

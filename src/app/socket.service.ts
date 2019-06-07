@@ -5,12 +5,14 @@ import * as io from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 
 import { HttpClient } from '@angular/common/http';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
+  // private url = `http://api.shakeit.live`;
   private url = `http://localhost:3000`;
   public socket;
 
@@ -26,14 +28,14 @@ export class SocketService {
     })
   }
 
-  public updateChange = (data) => {
-    this.socket.emit('updateChange', data);
+  public updateChange = (data, issueId) => {
+    this.socket.emit('updateChange', data, issueId);
   }
 
-  public getNotification = () => {
+  public getNotification = (userId) => {
     return Observable.create((observer) => {
-      this.socket.on('getNote', (msg) => {
-        observer.next(msg);
+      this.socket.on(userId, (data) => {
+        observer.next(data);
       })
     })
   }

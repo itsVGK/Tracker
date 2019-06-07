@@ -4,6 +4,7 @@ import { AppService } from './../../app.service';
 import { ToastrService } from 'ngx-toastr';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { DataSharedService } from 'src/app/shared/data-shared.service';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-list',
@@ -57,9 +58,11 @@ export class ListComponent implements OnInit {
   };
   private data: Array<any> = this.issueListbyUser;
 
-  public constructor(private dataShared: DataSharedService, private router: Router, private appService: AppService, private toastr: ToastrService) {
+  public constructor(private socketService: SocketService, private dataShared: DataSharedService, private router: Router, private appService: AppService, private toastr: ToastrService) {
     this.length = this.data.length;
+    this.userId = Cookie.get('userId')
     this.dataShared.isUserLoggedIn.next(true);
+    this.getNotifications(this.userId);
   }
 
   public ngOnInit(): void {
@@ -70,6 +73,14 @@ export class ListComponent implements OnInit {
     }, 2000);
   }
 
+  getNotifications = (userId) => {
+    this.socketService.getNotification(userId).subscribe((note) => {
+      console.log('received note ', note)
+      this.toastr.info(`issueid ${note} edited`, 'Edited');
+      // this.notificationList.push(`${note.issueId} is edited`);
+    })
+  }
+
   public assignedToMe(isAssignedToMe) {
     if (isAssignedToMe) {
       this.getForMe = true;
@@ -77,7 +88,7 @@ export class ListComponent implements OnInit {
       this.getForMe = false;
     }
     this.getIssues();
-    console.log(this.getForMe)
+    // console.log(this.getForMe)
   }
 
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
@@ -176,10 +187,11 @@ export class ListComponent implements OnInit {
 
   public getIssues(): any {
     if (this.getForMe) {
+      // console.log('userId ', this.userId)
       this.appService.getAllIssuesByAssignee(this.userId).subscribe(
         (issues) => {
           this.issueListbyUser = [];
-          console.log('gng to get issues assigned to me')
+          // console.log('gng to get issues assigned to me')
           // console.log(issues)
           if (issues.status == 400) {
             this.toastr.warning('No Issues were Assigned', 'Enjoy');
@@ -199,7 +211,7 @@ export class ListComponent implements OnInit {
                   }
                 })
             }
-            console.log(this.issueListbyUser)
+            // console.log(this.issueListbyUser)
           }
           setTimeout(() => {
             this.onChangeTable(this.config, true);
@@ -209,7 +221,7 @@ export class ListComponent implements OnInit {
       this.appService.getAllIssues().subscribe(
         (issues) => {
           this.issueListbyUser = [];
-          console.log('gng to get all issues')
+          // console.log('gng to get all issues')
           // console.log(issues)
           if (issues.status == 400) {
             this.toastr.warning('No Issues were Available', 'Enjoy');
@@ -229,7 +241,7 @@ export class ListComponent implements OnInit {
                   }
                 })
             }
-            console.log(this.issueListbyUser)
+            // console.log(this.issueListbyUser)
           }
           setTimeout(() => {
             this.onChangeTable(this.config, true);
