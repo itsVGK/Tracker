@@ -12,8 +12,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class SocketService {
 
-  // private url = `http://api.shakeit.live`;
-  private url = `http://localhost:3000`;
+  private url = `http://api.shakeit.live`;
+  // private url = `http://localhost:3000`;
   public socket;
 
   constructor(private http: HttpClient) {

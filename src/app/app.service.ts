@@ -14,8 +14,8 @@ export class AppService {
 
   constructor(private http: HttpClient) { }
 
-  // public url = `http://api.shakeit.live/api/v1/issue`;
-  public url = `http://localhost:3000/api/v1/issue`;
+  public url = `http://api.shakeit.live/api/v1/issue`;
+  // public url = `http://localhost:3000/api/v1/issue`;
 
   public loginService(user): Observable<any> {
 
