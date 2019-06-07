@@ -7,6 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { DataSharedService } from './../../shared/data-shared.service';
 import { SocketService } from 'src/app/socket.service';
 
+import { AuthService } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import { SocialUser } from "angularx-social-login";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,16 +22,21 @@ export class LoginComponent implements OnInit {
   public password: string;
   public loggedIn: boolean = false;
 
-  constructor(private socketService: SocketService, private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) {
+  private user: SocialUser;
+
+  constructor(private authService: AuthService, private socketService: SocketService, private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) {
     this.isConnected();
   }
 
   ngOnInit() {
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
   }
 
   isConnected() {
     this.socketService.isConnected().subscribe((msg) => {
-      console.log('msg from socket ', msg)
     })
   }
 
@@ -41,7 +50,7 @@ export class LoginComponent implements OnInit {
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
-          this.loggedIn = true;
+          // this.loggedIn = true;
           let userName = result.data.firstName + ' ' + result.data.lastName;
           Cookie.set('userId', result.data.userId);
           Cookie.set('authToken', 'admin');
@@ -57,7 +66,19 @@ export class LoginComponent implements OnInit {
     )
   }   //end log in
 
-  public isLoggedIn = () => {
-    return this.loggedIn;
+  // public isLoggedIn = () => {
+  //   return this.loggedIn;
+  // }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+ 
+  // signInWithFB(): void {
+  //   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  // } 
+ 
+  signOut(): void {
+    this.authService.signOut();
   }
 }
