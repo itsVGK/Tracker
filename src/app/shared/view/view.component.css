@@ -30,3 +30,16 @@
   color: cadetblue;
   font-family: cursive;
 }
+
+#note{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color-adjust: initial;
+  color: cadetblue;
+  font-family: cursive;
+  padding: 5% 10%;
+  height: 40%;
+} 
+
+span{
+  color: darkgreen
+}

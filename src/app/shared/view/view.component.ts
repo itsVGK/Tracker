@@ -31,13 +31,13 @@ export class ViewComponent implements OnInit {
 
   constructor(private socketService: SocketService, private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) {
     this.getAssigneeList();
-    this.getNotificationList();
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
   }
 
   ngOnInit() {
     this.userId = Cookie.get('userId');
     this.getIssuebyId(this.issueId);
+    this.getNotificationList();
     this.getWatchers();
     this.dataShared.isUserLoggedIn.next(true);
   }
@@ -60,16 +60,17 @@ export class ViewComponent implements OnInit {
   }
 
   getNotificationList=()=>{
-    console.log(this.userId)
+    // console.log(this.userId)
     this.appService.getUserbyId(this.userId).subscribe((result)=>{
-      console.log(result)
+      // console.log(result)
       if(result.status===400){
         this.notificationList=[];
       }else{
-        console.log(result.data[0])
-        this.notificationList.push(result.data[0].noteList)
+        let tem=result.data[0].noteList;
+        for(let t in tem){
+        this.notificationList.push(tem[t])
+        }
       }
-      console.log(this.notificationList)
     })
   }
 
@@ -122,12 +123,15 @@ export class ViewComponent implements OnInit {
 
   //save the updated form
   editform = () => {
-
+    console.log(this.currIssue)
     this.appService.uploadFiles(this.uploader);
-    // this.noteSet.add(this.currIssue.assignee);
+    this.noteSet.add(this.currIssue.assignee)
+    this.noteSet.add(this.currIssue.reporteeId)
     this.noteSet.forEach(note => {
       this.noteList.push(note);
     })
+    // console.log('note set', this.noteSet)
+    // console.log('note list', this.noteList)
 
     this.appService.updateIssueByUser(this.currIssue).subscribe(
       (result) => {

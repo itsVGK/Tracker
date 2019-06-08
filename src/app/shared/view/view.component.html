@@ -161,8 +161,8 @@
 
     <cdk-virtual-scroll-viewport itemSize="3" class="example-viewport">
       <div *ngIf="notificationList.length>0">
-        <div *cdkVirtualFor="let notify of notificationList" class="list">
-          {{notify}}
+        <div id='note' *cdkVirtualFor="let notify of notificationList" class="list">
+          Issue Id<a href='/view/{{notify}}'> {{notify}}</a> Edited
         </div>
       </div>
     </cdk-virtual-scroll-viewport>
