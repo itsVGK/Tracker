@@ -19,17 +19,11 @@ export class ViewComponent implements OnInit {
 
   public userId: String;
   public issueId: String;
-  // public title: String;
-  // public status: String;
   public reportee: String;
-  // public reporteeName: String
-  // public description: String;
-  // public comments: any;
-  // public assignee: any;
   public statusList: any = ['backlog', 'In-Progress', 'in-test', 'done'];
   public assigneeList: any;
   public enableEdit: boolean = false;
-  // public notificationList: Array<any> = [];
+  public notificationList: Array<any> = [];
   public watchersList: any;
   public noteSet: Set<any> = new Set();
   public noteList: Array<any> = [];
@@ -37,6 +31,7 @@ export class ViewComponent implements OnInit {
 
   constructor(private socketService: SocketService, private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) {
     this.getAssigneeList();
+    this.getNotificationList();
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
   }
 
@@ -62,6 +57,20 @@ export class ViewComponent implements OnInit {
           this.assigneeList = ['No Assignees Available'];
         }
       })
+  }
+
+  getNotificationList=()=>{
+    console.log(this.userId)
+    this.appService.getUserbyId(this.userId).subscribe((result)=>{
+      console.log(result)
+      if(result.status===400){
+        this.notificationList=[];
+      }else{
+        console.log(result.data[0])
+        this.notificationList.push(result.data[0].noteList)
+      }
+      console.log(this.notificationList)
+    })
   }
 
   getWatchers = () => {
@@ -93,12 +102,6 @@ export class ViewComponent implements OnInit {
         if (issue.status === 200) {
           this.toastr.success("issue details were retrieved successfully", 'hurrahhh')
           this.currIssue = issue["data"][0];
-          // console.log(this.currIssue);
-          // console.log(this.currIssue.reporteeId);
-          // //set values for respective form variables
-          // this.userId = issue.data[0].userId;
-          // this.title = issue.data[0].title;
-          // this.status = issue.data[0].status;
           this.appService.getUserbyId(this.currIssue.reporteeId).subscribe(
             (data) => {
               if (data.status == 400) {
@@ -107,16 +110,6 @@ export class ViewComponent implements OnInit {
                 this.reportee = data.data[0].firstName + ' ' + data.data[0].lastName;
               }
             })
-          // this.appService.getUserbyId(issue.data[0].assignee).subscribe(
-          //   (data) => {
-          //     if (data.status == 400) {
-          //       return;
-          //     } else {
-          //       this.assignee = { 'firstName': data.data[0].firstName, 'lastName': data.data[0].lastName, 'assigneeId': data.data[0].userId }
-          //     }
-          //   })
-          // this.description = issue.data[0].description;
-          // this.comments = issue.data[0].comments;
         } else {
         }
       }
@@ -130,22 +123,11 @@ export class ViewComponent implements OnInit {
   //save the updated form
   editform = () => {
 
-    // let editedValue = {
-    //   title: this.title,
-    //   status: this.status,
-    //   description: this.description,
-    //   comments: this.comments,
-    //   assignee: this.assignee,
-    //   issueId: this.issueId,
-    //   reporteeId: this.userId
-    // }
     this.appService.uploadFiles(this.uploader);
-    console.log(this.currIssue)
-    this.noteSet.add(this.currIssue.assignee);
+    // this.noteSet.add(this.currIssue.assignee);
     this.noteSet.forEach(note => {
       this.noteList.push(note);
     })
-    console.log(this.noteList)
 
     this.appService.updateIssueByUser(this.currIssue).subscribe(
       (result) => {

@@ -11,18 +11,31 @@
         <input placeholder="firstName" type="text" name="firstName" [(ngModel)]="firstName" id="firstName"
           class="form-control" #first="ngModel" required>
       </div>
+      <div [hidden]='first.valid || first.pristine' class="alert alert-danger">
+        FirstName required
+      </div>
+
       <div class="form-group">
         <input placeholder="lastName" type="text" name="lastName" [(ngModel)]="lastName" id="lastName"
           class="form-control" #last="ngModel">
       </div>
+
       <div class="form-group">
-        <input placeholder="email" type="email" name="email" [(ngModel)]="email" id="email" class="form-control"
+        <input placeholder="abc@gmail.com" type="email" name="email" [(ngModel)]="email" id="email" class="form-control"
           #mail="ngModel" required>
       </div>
+      <div [hidden]='mail.valid || mail.pristine' class="alert alert-danger">
+        Email in Correct Format required
+      </div>
+
       <div class="form-group">
         <input placeholder="password" type="password" name="password" [(ngModel)]="password" id="password"
           class="form-control" #pass="ngModel" required>
       </div>
+      <div [hidden]='pass.valid || pass.pristine' class="alert alert-danger">
+        Password required
+      </div>
+      
       <button type="submit" [disabled]="!signupForm.form.valid" class="btn btn-primary btn-small">Create</button>
     </form>
   </div>

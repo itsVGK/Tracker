@@ -1,11 +1,11 @@
 <div class="row margintop">
   <div class="col-md-8 offset-md-1">
-    <div>Issue Description</div><br>
+    <div id="view">Issue Description</div><br>
 
     <form #editForm="ngForm" (ngSubmit)="editform()">
 
       <div class="form-group row">
-        <label for="title" class="col-sm-2 col-form-label">Title</label>
+        <label id='sub' for="title" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
           <input [disabled]="!enableEdit" type="text" [(ngModel)]="currIssue.title" name="title" #tit="ngModel"
             class="form-control" id="title">
@@ -13,46 +13,44 @@
       </div>
 
       <div class="form-group row">
-        <label for="status" class="col-sm-2 col-form-label">Status</label>
+        <label id='sub' for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-10">
-          <select [disabled]="!enableEdit" [(ngModel)]="currIssue.status" name="status" class="form-control" id="status" required>
+          <select [disabled]="!enableEdit" [(ngModel)]="currIssue.status" name="status" class="form-control" id="status"
+            required>
             <option *ngFor="let status of statusList" [value]="status">{{status}}</option>
           </select>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="reportee" class="col-sm-2 col-form-label">Reporter</label>
+        <label id='sub' for="reportee" class="col-sm-2 col-form-label">Reporter</label>
         <div class="col-sm-10">
-          <input type="text" [(ngModel)]="reportee" name="reportee" #rep="ngModel" class="form-control"
-            id="reportee" readonly>
+          <input type="text" [(ngModel)]="reportee" name="reportee" #rep="ngModel" class="form-control" id="reportee"
+            readonly>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="assignee" class="col-sm-2 col-form-label">Assignee</label>
+        <label id='sub' for="assignee" class="col-sm-2 col-form-label">Assignee</label>
         <div class="col-sm-10">
-          <select [disabled]="!enableEdit" [(ngModel)]="currIssue.assignee" name="assignee" class="form-control" id="assignee"
-            required>
-            <option *ngFor="let assignee of assigneeList" value="{{assignee.assigneeId}}">{{assignee.firstName}}
-              {{assignee.lastName}}</option>
+          <select [disabled]="!enableEdit" [(ngModel)]="currIssue.assignee" name="assignee" class="form-control"
+            id="assignee" required>
+            <option *ngFor="let assignee of assigneeList" value="{{assignee.assigneeId}}">
+              {{assignee.firstName|uppercase}} {{assignee.lastName|uppercase}}</option>
           </select>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="description" class="col-sm-2">Description</label>
+        <label id='sub' for="description" class="col-sm-2">Description</label>
         <div class="col-sm-10">
           <angular-editor name="description" [(ngModel)]="currIssue.description"></angular-editor>
-
-          <!-- <input [disabled]="!enableEdit" type="text" [(ngModel)]="description" value="description" name="description"
-            #desc="ngModel" class="form-control" id="description"> -->
         </div>
       </div>
 
 
       <div class="form-group row">
-        <label for="comments" class="col-sm-2">Comments</label>
+        <label id='sub' for="comments" class="col-sm-2">Comments</label>
         <div class="col-sm-10">
           <input [disabled]="!enableEdit" type="text" [(ngModel)]="currIssue.comments" value="comments" name="comments"
             #comm="ngModel" class="form-control" id="comments">
@@ -63,7 +61,7 @@
       <div class="container ">
 
         <div class="form-group row">
-          <label for="files">Select files</label>
+          <label id='sub' for="files">Select files</label>
           <div class="col">
             <input type="file" name="files" ng2FileSelect [uploader]="uploader" multiple /><br />
           </div>
@@ -71,7 +69,7 @@
 
         <div class="row" style="margin-bottom: 40px" *ngIf="uploader.queue.length>0">
 
-          <b><label>Upload queue</label></b>
+          <b><label id='sub'>Upload queue</label></b>
 
           <table class="table">
             <thead>
@@ -157,7 +155,7 @@
 
   <div class="col-md-3">
 
-    <!-- <div class="row">
+    <div id='sub' class="row">
       Notifications
     </div><br>
 
@@ -167,16 +165,16 @@
           {{notify}}
         </div>
       </div>
-    </cdk-virtual-scroll-viewport> -->
+    </cdk-virtual-scroll-viewport>
 
-    <div class="row">
+    <div id='sub' class="row">
       Watchers list
     </div><br>
 
     <cdk-virtual-scroll-viewport itemSize="3" class="example-viewport">
       <div *ngIf="watchersList.length>0">
-        <div *ngFor="let watcher of watchersList" class="example-item">
-          {{watcher}}
+        <div id='watch' *ngFor="let watcher of watchersList" class="example-item">
+          {{watcher|uppercase}}
         </div>
       </div>
     </cdk-virtual-scroll-viewport>

@@ -7,7 +7,7 @@
     <div id="login">Login</div><br>
     <form #loginForm="ngForm" (ngSubmit)="login()">
       <div class="form-group">
-        <input [(ngModel)]="email" placeholder="email" type="email" name="email" id="email" class="form-control"
+        <input [(ngModel)]="email" placeholder="abc@gmail.com" type="email" name="email" id="email" class="form-control"
           #mail="ngModel" required>
       </div>
       <div class="form-group">
@@ -16,12 +16,13 @@
       </div>
       <button type="submit" class="btn btn-primary btn-small ">Login</button>
     </form>
+    <br>
     <div>New User Register <a href="/signup">here</a></div>
   </div>
 
 </div>
 
-<!-- social login -->
+<!-- social login
 <div class="jumbotron bg-transparent text-center">
   <div *ngIf="!user" class="card text-center">
     <h6 class="card-header">
@@ -34,8 +35,8 @@
     <div class="card-block">
       <button class="btn btn-social-icon btn-google mx-1" (click)="signInWithGoogle()"><span
           class="fa fa-google"></span></button>
-      <!-- <button class="btn btn-social-icon btn-facebook mx-1" (click)="signInWithFB()"><span class="fa fa-facebook"></span></button> -->
-      <!-- <button class="btn btn-social-icon btn-linkedin mx-1" (click)="signInWithLinkedIn()" disabled><span class="fa fa-linkedin"></span></button> -->
+      <button class="btn btn-social-icon btn-facebook mx-1" (click)="signInWithFB()"><span class="fa fa-facebook"></span></button>
+      <button class="btn btn-social-icon btn-linkedin mx-1" (click)="signInWithLinkedIn()" disabled><span class="fa fa-linkedin"></span></button>
     </div>
   </div>
   <div *ngIf="user" class="card text-center">
@@ -52,4 +53,4 @@
       <button class="btn btn-danger" (click)="signOut()">Sign out</button>
     </div>
   </div>
-</div>
+</div> -->

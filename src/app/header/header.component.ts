@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
       this.isUserLoggedin = value;
     })
     this.dataShared.userName.subscribe(value => {
-      this.userName = value;
+      this.userName = Cookie.get('userName');
     })
   }
 

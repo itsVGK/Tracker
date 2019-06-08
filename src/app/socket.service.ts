@@ -12,8 +12,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 })
 export class SocketService {
 
-  private url = `http://api.shakeit.live`;
-  // private url = `http://localhost:3000`;
+  // private url = `http://api.shakeit.live`;
+  private url = `http://localhost:3000`;
   public socket;
 
   constructor(private http: HttpClient) {
@@ -28,13 +28,16 @@ export class SocketService {
     })
   }
 
-  public updateChange = (data, issueId) => {
-    this.socket.emit('updateChange', data, issueId);
+  public updateChange = (noteList, issueId) => {
+    // console.log('updating change ', noteList)
+    this.socket.emit('updateChange', noteList, issueId);
   }
 
   public getNotification = (userId) => {
     return Observable.create((observer) => {
-      this.socket.on(userId, (data) => {
+      // console.log(userId)
+      this.socket.on(userId, data => {
+        // console.log('received data ', userId)
         observer.next(data);
       })
     })

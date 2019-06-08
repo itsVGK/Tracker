@@ -7,3 +7,13 @@
     font-size: 2em;
     color: rgb(106, 106, 161);
 }
+
+#sub{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:  rgb(106, 106, 161); 
+}
+
+#assignee{
+    color: rgb(43, 69, 139);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

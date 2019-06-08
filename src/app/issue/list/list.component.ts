@@ -24,8 +24,6 @@ export class ListComponent implements OnInit {
   public getForMe: boolean = true;
   public issueListbyUser: Array<any> = [];
 
-  //new
-
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'ISSUE ID', className: 'text-success', name: 'issueId', filtering: { filterString: '', placeholder: 'Filter by issueId' } },
@@ -62,6 +60,7 @@ export class ListComponent implements OnInit {
     this.length = this.data.length;
     this.userId = Cookie.get('userId')
     this.dataShared.isUserLoggedIn.next(true);
+    this.dataShared.userName.next(true);
     this.getNotifications(this.userId);
   }
 
@@ -74,10 +73,11 @@ export class ListComponent implements OnInit {
   }
 
   getNotifications = (userId) => {
-    this.socketService.getNotification(userId).subscribe((note) => {
-      console.log('received note ', note)
-      this.toastr.info(`issueid ${note} edited`, 'Edited');
-      // this.notificationList.push(`${note.issueId} is edited`);
+    this.socketService.getNotification(userId).subscribe((issueId) => {
+      this.toastr.info(`issueid ${issueId} edited`, 'Edited');
+      this.appService.updateNote(issueId).subscribe((data) => {
+        console.log(data)
+      })
     })
   }
 
@@ -88,7 +88,6 @@ export class ListComponent implements OnInit {
       this.getForMe = false;
     }
     this.getIssues();
-    // console.log(this.getForMe)
   }
 
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
@@ -181,22 +180,17 @@ export class ListComponent implements OnInit {
   }
 
   public onCellClick(data: any): any {
-    // console.log(data.row.issueId);
     this.router.navigate(['/view', data.row.issueId]);
   }
 
   public getIssues(): any {
     if (this.getForMe) {
-      // console.log('userId ', this.userId)
       this.appService.getAllIssuesByAssignee(this.userId).subscribe(
         (issues) => {
           this.issueListbyUser = [];
-          // console.log('gng to get issues assigned to me')
-          // console.log(issues)
           if (issues.status == 400) {
             this.toastr.warning('No Issues were Assigned', 'Enjoy');
-          }
-          else {
+          } else {
             let dat = issues.data
             for (let x in dat) {
               let reporteeName;
@@ -211,7 +205,6 @@ export class ListComponent implements OnInit {
                   }
                 })
             }
-            // console.log(this.issueListbyUser)
           }
           setTimeout(() => {
             this.onChangeTable(this.config, true);
@@ -221,8 +214,6 @@ export class ListComponent implements OnInit {
       this.appService.getAllIssues().subscribe(
         (issues) => {
           this.issueListbyUser = [];
-          // console.log('gng to get all issues')
-          // console.log(issues)
           if (issues.status == 400) {
             this.toastr.warning('No Issues were Available', 'Enjoy');
           }

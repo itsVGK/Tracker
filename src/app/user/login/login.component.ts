@@ -7,9 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DataSharedService } from './../../shared/data-shared.service';
 import { SocketService } from 'src/app/socket.service';
 
-import { AuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-import { SocialUser } from "angularx-social-login";
+// import { AuthService } from "angularx-social-login";
+// import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+// import { SocialUser } from "angularx-social-login";
 
 @Component({
   selector: 'app-login',
@@ -22,17 +22,17 @@ export class LoginComponent implements OnInit {
   public password: string;
   public loggedIn: boolean = false;
 
-  private user: SocialUser;
+  // private user: SocialUser;
 
-  constructor(private authService: AuthService, private socketService: SocketService, private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) {
+  constructor(private socketService: SocketService, private router: Router, private appService: AppService, private toastr: ToastrService, private dataShared: DataSharedService) {
     this.isConnected();
   }
 
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
-    });
+    // this.authService.authState.subscribe((user) => {
+    //   this.user = user;
+    //   this.loggedIn = (user != null);
+    // });
   }
 
   isConnected() {
@@ -50,12 +50,12 @@ export class LoginComponent implements OnInit {
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
         if (result.status === 200) {
-          // this.loggedIn = true;
           let userName = result.data.firstName + ' ' + result.data.lastName;
           Cookie.set('userId', result.data.userId);
           Cookie.set('authToken', 'admin');
+          Cookie.set('userName', userName)
           this.dataShared.isUserLoggedIn.next(true);
-          this.dataShared.userName.next(userName)
+          this.dataShared.userName.next(true)
           this.toastr.success('Logged In Successfully', 'Success')
           this.router.navigate(['list']);
         } else {
@@ -66,19 +66,15 @@ export class LoginComponent implements OnInit {
     )
   }   //end log in
 
-  // public isLoggedIn = () => {
-  //   return this.loggedIn;
+  // signInWithGoogle(): void {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
   // }
-
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
  
   // signInWithFB(): void {
   //   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   // } 
  
-  signOut(): void {
-    this.authService.signOut();
-  }
+  // signOut(): void {
+  //   this.authService.signOut();
+  // }
 }

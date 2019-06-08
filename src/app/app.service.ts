@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpResponseBase, HttpParams } from '@an
 import { FileUploader } from 'ng2-file-upload';
 
 import { Observable } from 'rxjs';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 // import 'rxjs/add/operator/catch';
 // import 'rxjs/add/operator/do';
 
@@ -12,10 +13,14 @@ import { Observable } from 'rxjs';
 
 export class AppService {
 
-  constructor(private http: HttpClient) { }
+  public userId: String;
 
-  public url = `http://api.shakeit.live/api/v1/issue`;
-  // public url = `http://localhost:3000/api/v1/issue`;
+  constructor(private http: HttpClient) {
+    this.userId = Cookie.get('userId');
+  }
+
+  // public url = `http://api.shakeit.live/api/v1/issue`;
+  public url = `http://localhost:3000/api/v1/issue`;
 
   public loginService(user): Observable<any> {
 
@@ -75,16 +80,7 @@ export class AppService {
 
   //for View view- to update
   public updateIssueByUser(issue): Observable<any> {
-    // const params = new HttpParams()
-    //   .set('title', issue.title)
-    //   .set('status', issue.status)
-    //   .set('assignee', issue.assignee)
-    //   .set('reporteeId', issue.reporteeId)
-    //   .set('description', issue.description)
-    //   .set('comments', issue.comments);
-    // console.log(params);
-    // console.log(issue.issueId, issue);
-    return this.http.post(`${this.url}/update/:${issue.issueId}`, issue);
+    return this.http.post(`${this.url}/update/${issue.issueId}`, issue);
   }
 
   //for View view to update watch list
@@ -107,4 +103,10 @@ export class AppService {
     // uploader: FileUploader = new FileUploader({ url: '' });
   }
 
+  public updateNote(issueId) {
+    console.log('calling update')
+    let params = new HttpParams()
+      .set('issueId', issueId);
+    return this.http.post(`${this.url}/updateNote/forUser/${this.userId}`, params);
+  }
 }
