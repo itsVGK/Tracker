@@ -18,6 +18,12 @@
     font-size: 1em;
 }
 
+
+#choose1:hover{
+    cursor: pointer;
+    font-size: 1em;
+}
+
 .active{
     background-color: aquamarine
 }

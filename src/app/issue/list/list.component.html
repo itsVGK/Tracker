@@ -31,7 +31,7 @@
 <br>
 <div class="row"  style="overflow-x:auto;" >
     <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
-      [columns]="columns" id="choose">
+      [columns]="columns" id="choose1">
     </ng-table>
 
     <pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
