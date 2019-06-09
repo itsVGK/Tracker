@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
     this.appService.loginService(loggedUser).subscribe(
       (result) => {
-        console.log(result)
+        // console.log(result)
         if (result.status === 200) {
           let userName = result.data.firstName + ' ' + result.data.lastName;
           Cookie.set('userId', result.data.userId);

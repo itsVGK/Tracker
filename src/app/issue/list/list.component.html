@@ -26,9 +26,10 @@
     </div>
   </div>
 
-  <br>
+</div>
 
-  <div class="col">
+<br>
+<div class="row"  style="overflow-x:auto;" >
     <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
       [columns]="columns" id="choose">
     </ng-table>
@@ -39,5 +40,4 @@
     </pagination>
 
     <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
-  </div>
 </div>

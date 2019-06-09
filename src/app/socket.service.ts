@@ -29,13 +29,13 @@ export class SocketService {
   }
 
   public updateChange = (noteList, issueId) => {
-    console.log('updating change ', noteList, issueId)
+    // console.log('updating change ', noteList, issueId)
     this.socket.emit('updateChange', noteList, issueId);
   }
 
   public getNotification = (userId) => {
     return Observable.create((observer) => {
-      console.log(userId)
+      // console.log(userId)
       this.socket.on(userId, data => {
         console.log('received data for ', userId, ' and data ', data)
         observer.next(data);

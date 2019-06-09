@@ -130,7 +130,7 @@ export class ViewComponent implements OnInit {
     this.noteSet.forEach(note => {
       this.noteList.push(note);
     })
-    console.log(this.noteList)
+    // console.log(this.noteList)
   }
 
   //save the updated form
