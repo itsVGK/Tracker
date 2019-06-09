@@ -6,7 +6,7 @@ import { ViewComponent } from './view/view.component';
 import { FormsModule } from '@angular/forms';
 import { RouteGuardService } from '../issue/route-guard.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { FileSelectDirective, FileUploadModule, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
@@ -19,7 +19,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ScrollingModule,
     RouterModule.forChild([
       { path: 'view/:issueId', component: ViewComponent, canActivate: [RouteGuardService] }
-    ])
-  ]
+    ]),
+  ],
+  exports: []
 })
 export class SharedModule { }

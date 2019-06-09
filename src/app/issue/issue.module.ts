@@ -9,14 +9,15 @@ import { ViewComponent } from '../shared/view/view.component';
 import { RouteGuardService } from './route-guard.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PaginationModule } from 'ng2-bootstrap/pagination';
-import { NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective } from 'ng2-table/ng2-table';
+import { Ng2TableModule } from 'ng2-table/ng2-table';
 
 @NgModule({
-  declarations: [ListComponent, CreateComponent, NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective,],
+  declarations: [ListComponent, CreateComponent],
   imports: [
     CommonModule,
     FormsModule,
     AngularEditorModule,
+    Ng2TableModule,
     PaginationModule.forRoot(),
     RouterModule.forChild([
       { path: 'list', component: ListComponent, canActivate: [RouteGuardService] },

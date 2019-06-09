@@ -12,12 +12,11 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { HeaderComponent } from './header/header.component';
-// import { MatInputModule, MatFormFieldModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     HttpClientModule,
