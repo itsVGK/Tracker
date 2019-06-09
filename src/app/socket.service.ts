@@ -29,7 +29,7 @@ export class SocketService {
   }
 
   public updateChange = (noteList, issueId) => {
-    console.log('updating change ', noteList)
+    console.log('updating change ', noteList, issueId)
     this.socket.emit('updateChange', noteList, issueId);
   }
 

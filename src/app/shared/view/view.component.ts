@@ -28,17 +28,20 @@ export class ViewComponent implements OnInit {
   public noteSet: Set<any> = new Set();
   public noteList: Array<any> = [];
   public currIssue: any = [];
+  public newComment: String;
+  public commentList: Array<any>;
 
   constructor(private socketService: SocketService, private dataShared: DataSharedService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) {
     this.getAssigneeList();
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
+    this.getIssuebyId(this.issueId);
   }
 
   ngOnInit() {
     this.userId = Cookie.get('userId');
-    this.getIssuebyId(this.issueId);
     this.getNotificationList();
     this.getWatchers();
+    this.getNoteList();
     this.dataShared.isUserLoggedIn.next(true);
   }
 
@@ -59,16 +62,14 @@ export class ViewComponent implements OnInit {
       })
   }
 
-  getNotificationList=()=>{
-    // console.log(this.userId)
-    this.appService.getUserbyId(this.userId).subscribe((result)=>{
-      // console.log(result)
-      if(result.status===400){
-        this.notificationList=[];
-      }else{
-        let tem=result.data[0].noteList;
-        for(let t in tem){
-        this.notificationList.push(tem[t])
+  getNotificationList = () => {
+    this.appService.getUserbyId(this.userId).subscribe((result) => {
+      if (result.status === 400) {
+        this.notificationList = [];
+      } else {
+        let tem = result.data[0].noteList;
+        for (let t in tem) {
+          this.notificationList.push(tem[t])
         }
       }
     })
@@ -103,6 +104,8 @@ export class ViewComponent implements OnInit {
         if (issue.status === 200) {
           this.toastr.success("issue details were retrieved successfully", 'hurrahhh')
           this.currIssue = issue["data"][0];
+          this.commentList = this.currIssue.comments;
+          this.getNoteList();
           this.appService.getUserbyId(this.currIssue.reporteeId).subscribe(
             (data) => {
               if (data.status == 400) {
@@ -113,6 +116,7 @@ export class ViewComponent implements OnInit {
             })
         } else {
         }
+        // console.log(this.currIssue)
       }
     )
   }
@@ -121,9 +125,17 @@ export class ViewComponent implements OnInit {
     this.enableEdit = true;
   }
 
+  getNoteList = () => {
+    this.noteList=[];
+    this.noteSet.forEach(note => {
+      this.noteList.push(note);
+    })
+    console.log(this.noteList)
+  }
+
   //save the updated form
   editform = () => {
-    console.log(this.currIssue)
+    this.noteList=[];
     this.appService.uploadFiles(this.uploader);
     this.noteSet.add(this.currIssue.assignee)
     this.noteSet.add(this.currIssue.reporteeId)
@@ -140,7 +152,7 @@ export class ViewComponent implements OnInit {
           this.toastr.success('Issue Details Updated Successfully', 'Updated')
           this.router.navigate(['list']);
         } else {
-          this.toastr.warning('Unable to update th issue');
+          this.toastr.warning('Unable to update the issue');
           this.router.navigate(['view']);
         }
       }
@@ -164,4 +176,17 @@ export class ViewComponent implements OnInit {
         }
       })
   }  //end add Watch 
+
+  addComment = () => {
+    this.currIssue.comments.push(this.newComment);
+    this.newComment = '';
+    this.getNoteList();
+    this.appService.updateIssueByUser(this.currIssue).subscribe(
+      (result) => {
+        if (result.status === 200) {
+          this.socketService.updateChange(this.noteList, this.currIssue.issueId);
+        } else {
+        }
+      })
+  }
 }
