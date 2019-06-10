@@ -7,7 +7,7 @@ import { RouteGuardService } from './issue/route-guard.service';
 const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  // { path: '', component: AppComponent, pathMatch: 'full' }
+  { path: '', component: LoginComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
