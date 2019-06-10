@@ -1,20 +1,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="row">
-  <div class="col">
-    <div class="row">
       <div class="col">
         <button id='choose' class="btn btn-light bt" (click)="assignedToMe(true)">Assigned To Me</button>
       </div>
       <div class="col">
         <button id='choose' class="btn btn-light bt" (click)="assignedToMe(false)">All Issues</button>
       </div>
-    </div>
-  </div>
 
-  <div class="col">
-
-    <div class="row">
       <div class="col">
         <button class="btn btn-outline-success" [routerLink]="['/create']" type="submit">Create</button>
       </div>
@@ -23,15 +16,13 @@
         <input *ngIf="config.filtering" placeholder="Search" [ngTableFiltering]="config.filtering" class="form-control"
           (tableChanged)="onChangeTable(config)" />
       </div>
-    </div>
-  </div>
 
 </div>
 
 <br>
-<div class="row"  style="overflow-x:auto;" >
+<div class="row table-hover table-responsive" >
     <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows"
-      [columns]="columns" id="choose1">
+      [columns]="columns" id="choose1" >
     </ng-table>
 
     <pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
