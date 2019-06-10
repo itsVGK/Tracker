@@ -73,7 +73,7 @@ export class ViewComponent implements OnInit {
         for (let t in tem) {
           this.notificationList.push(tem[t])
         }
-        console.log(this.notificationList)
+        // console.log(this.notificationList)
       }
     })
   }

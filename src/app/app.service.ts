@@ -104,7 +104,7 @@ export class AppService {
   }
 
   public updateNote(issueId) {
-    console.log('calling update')
+    // console.log('calling update')
     let params = new HttpParams()
       .set('issueId', issueId);
     return this.http.post(`${this.url}/updateNote/forUser/${this.userId}`, params);

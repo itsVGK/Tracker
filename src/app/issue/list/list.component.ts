@@ -76,7 +76,7 @@ export class ListComponent implements OnInit {
     this.socketService.getNotification(userId).subscribe((issueId) => {
       this.toastr.info(`issueid ${issueId} edited`, 'Edited');
       this.appService.updateNote(issueId).subscribe((data) => {
-        console.log(data)
+        // console.log(data)
       })
     })
   }
