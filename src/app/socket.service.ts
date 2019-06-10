@@ -35,12 +35,17 @@ export class SocketService {
 
   public getNotification = (userId) => {
     return Observable.create((observer) => {
-      // console.log(userId)
       this.socket.on(userId, data => {
-        console.log('received data for ', userId, ' and data ', data)
         observer.next(data);
       })
     })
   }
-
+  
+  public getNotificationForView = (userId) => {
+    return Observable.create((observer) => {
+      this.socket.on(userId, data => {
+        observer.next(data);
+      })
+    })
+  }
 }

@@ -42,6 +42,7 @@ export class ViewComponent implements OnInit {
     this.getNotificationList();
     this.getWatchers();
     this.getNoteList();
+    this.getNotificationForView(this.userId);
     this.dataShared.isUserLoggedIn.next(true);
   }
 
@@ -64,6 +65,7 @@ export class ViewComponent implements OnInit {
 
   getNotificationList = () => {
     this.appService.getUserbyId(this.userId).subscribe((result) => {
+      this.notificationList = [];
       if (result.status === 400) {
         this.notificationList = [];
       } else {
@@ -71,7 +73,16 @@ export class ViewComponent implements OnInit {
         for (let t in tem) {
           this.notificationList.push(tem[t])
         }
+        console.log(this.notificationList)
       }
+    })
+  }
+
+  getNotificationForView = (userId) => {
+    this.socketService.getNotificationForView(userId).subscribe((data) => {
+      this.toastr.info(`${data} is commented`);
+      this.appService.updateNote(this.issueId)
+      this.getNotificationList();
     })
   }
 
@@ -126,7 +137,7 @@ export class ViewComponent implements OnInit {
   }
 
   getNoteList = () => {
-    this.noteList=[];
+    this.noteList = [];
     this.noteSet.forEach(note => {
       this.noteList.push(note);
     })
@@ -135,7 +146,7 @@ export class ViewComponent implements OnInit {
 
   //save the updated form
   editform = () => {
-    this.noteList=[];
+    this.noteList = [];
     this.appService.uploadFiles(this.uploader);
     this.noteSet.add(this.currIssue.assignee)
     this.noteSet.add(this.currIssue.reporteeId)
@@ -178,15 +189,17 @@ export class ViewComponent implements OnInit {
   }  //end add Watch 
 
   addComment = () => {
-    this.currIssue.comments.push(this.newComment);
-    this.newComment = '';
-    this.getNoteList();
-    this.appService.updateIssueByUser(this.currIssue).subscribe(
-      (result) => {
-        if (result.status === 200) {
-          this.socketService.updateChange(this.noteList, this.currIssue.issueId);
-        } else {
-        }
-      })
+    if (this.newComment != null && this.newComment != '' && this.newComment != undefined) {
+      this.currIssue.comments.push(this.newComment);
+      this.newComment = '';
+      this.getNoteList();
+      this.appService.updateIssueByUser(this.currIssue).subscribe(
+        (result) => {
+          if (result.status === 200) {
+            this.socketService.updateChange(this.noteList, this.currIssue.issueId);
+          } else {
+          }
+        })
+    }
   }
 }
