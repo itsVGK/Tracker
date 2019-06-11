@@ -80,7 +80,7 @@ export class ViewComponent implements OnInit {
 
   getNotificationForView = (userId) => {
     this.socketService.getNotificationForView(userId).subscribe((data) => {
-      this.toastr.info(`${data} is commented`);
+      // this.toastr.info(`${data} is commented`);
       this.appService.updateNote(this.issueId)
       this.getNotificationList();
     })
